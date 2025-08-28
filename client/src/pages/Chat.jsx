@@ -171,7 +171,7 @@ function Chat() {
           to="/"
           className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 ml-12"
         >
-          Voxalize
+          EchoSQL
         </Link>
         <div className="flex items-center space-x-4 mr-12 justify-center">
           <Link to="/profile" className="flex items-center space-x-4">

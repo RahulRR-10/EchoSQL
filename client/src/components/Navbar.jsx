@@ -18,7 +18,7 @@ function Navbar() {
           to="/"
           className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 "
         >
-          Voxalize
+          EchoSQL
         </Link>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white text-2xl">

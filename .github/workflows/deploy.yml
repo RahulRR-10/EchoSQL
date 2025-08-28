@@ -30,7 +30,7 @@ jobs:
             set -e # Exit on errors
 
             echo "Navigating to project directory..."
-            cd /home/vasudevshetty/projects/voxalize/
+            cd /home/vasudevshetty/projects/echosql/
 
             echo "Pulling the latest code from main branch..."
             git pull origin main
@@ -52,8 +52,8 @@ jobs:
             pip install -r requirements.txt
 
             echo "Restarting backend with PM2..."
-            pm2 reload voxalize-backend
-            pm2 reload voxalize-service
+            pm2 reload echosql-backend
+            pm2 reload echosql-service
             pm2 save
 
             echo "Deployment complete!"
