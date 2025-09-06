@@ -12,6 +12,57 @@ from typing import Dict, Any, Union
 load_dotenv()
 groq_api_key_5 = os.getenv("GROQ_API_KEY_1")
 
+def format_neo4j_results(result_records):
+    """Format Neo4j results into user-friendly display format"""
+    if not result_records:
+        return []
+    
+    formatted_results = []
+    
+    for record in result_records:
+        formatted_record = {}
+        
+        for key, value in record.items():
+            if isinstance(value, dict) and '_labels' in value:
+                # This is a Neo4j node - format it nicely
+                node_type = value.get('_labels', ['Unknown'])[0]
+                formatted_node = {
+                    'type': node_type,
+                    'properties': {}
+                }
+                
+                # Extract and format key properties
+                for prop_key, prop_value in value.items():
+                    if prop_key != '_labels':
+                        if prop_key == 'annual_revenue' and isinstance(prop_value, (int, float)):
+                            # Format large numbers
+                            formatted_node['properties'][prop_key] = f"${prop_value:,.0f}"
+                        elif prop_key == 'customer_base' and isinstance(prop_value, (int, float)):
+                            formatted_node['properties'][prop_key] = f"{prop_value:,} customers"
+                        elif prop_key == 'market_share' and isinstance(prop_value, float):
+                            formatted_node['properties'][prop_key] = f"{prop_value:.1%}"
+                        elif prop_key == 'stores' and isinstance(prop_value, (int, float)):
+                            formatted_node['properties'][prop_key] = f"{prop_value:,} stores"
+                        else:
+                            formatted_node['properties'][prop_key] = prop_value
+                
+                formatted_record[key] = formatted_node
+            elif isinstance(value, dict) and '_type' in value:
+                # This is a Neo4j relationship - format it nicely  
+                rel_type = value.get('_type', 'Unknown')
+                formatted_rel = {
+                    'type': f"Relationship: {rel_type}",
+                    'properties': {k: v for k, v in value.items() if k != '_type'}
+                }
+                formatted_record[key] = formatted_rel
+            else:
+                # This is a primitive value
+                formatted_record[key] = value
+        
+        formatted_results.append(formatted_record)
+    
+    return formatted_results
+
 def process_neo4j_query(db_name, host, user, password, database, query, llm, driver):
     """Process Neo4j graph database queries using Cypher"""
     
@@ -104,15 +155,39 @@ def process_neo4j_query(db_name, host, user, password, database, query, llm, dri
                 
         print(f"[DEBUG] Neo4j result_records: {result_records[:3]}")  # Debug first 3 records
         
-        # Generate summary
-        if result_records:
-            result_str = json.dumps(result_records[:5], indent=2, default=str)  # Show first 5 for summary
+        # Format results for better display
+        formatted_results = format_neo4j_results(result_records)
+        
+        # Generate summary using formatted results for better readability
+        if formatted_results:
+            # Use formatted results for summary but limit the data shown
+            summary_data = []
+            for record in formatted_results[:3]:  # Only use first 3 for summary
+                summary_item = {}
+                for key, value in record.items():
+                    if isinstance(value, dict) and 'type' in value:
+                        # Extract key properties for summary
+                        node_type = value['type']
+                        props = value.get('properties', {})
+                        key_props = {}
+                        
+                        # Include most relevant properties
+                        important_props = ['name', 'location', 'type', 'annual_revenue', 'customer_base', 'market_share']
+                        for prop in important_props:
+                            if prop in props:
+                                key_props[prop] = props[prop]
+                        
+                        summary_item[key] = f"{node_type}: {key_props}"
+                    else:
+                        summary_item[key] = value
+                summary_data.append(summary_item)
+            
             summary_prompt = f"""
             Based on the following Neo4j graph query and results, provide a concise summary (2-3 sentences):
             
             User Question: {query}
             Cypher Query: {cypher_query}
-            Results: {result_str}
+            Sample Results: {json.dumps(summary_data, indent=2)}
             Total Records: {len(result_records)}
             
             Focus on the key insights and findings from the graph data.
@@ -138,7 +213,7 @@ def process_neo4j_query(db_name, host, user, password, database, query, llm, dri
         result = {
             "user_query": query,
             "cypher_query": cypher_query,
-            "graph_result": result_records,
+            "graph_result": formatted_results,  # Use formatted results instead of raw
             "summary": summary,
             "title": title,
             "database_type": "neo4j",

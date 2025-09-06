@@ -35,6 +35,104 @@ const SQLCard = ({
   const hasError =
     typeof sqlResponse === "string" || (!isValidResponse && sqlResponse);
 
+  // Check if this is formatted Neo4j data
+  const isFormattedNeo4j = isValidResponse && sqlResponse[0] && 
+    Object.values(sqlResponse[0]).some(val => 
+      val && typeof val === 'object' && val.type && val.properties
+    );
+
+  // Render Neo4j nodes in a card format
+  const renderNeo4jResults = () => {
+    return (
+      <div className="space-y-4">
+        <p className="text-gray-400 text-xs mb-2 font-medium">
+          {responseLabel}:
+        </p>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {sqlResponse.map((record, i) => (
+            <div key={i} className="bg-[#2a3a3a] rounded-lg p-4 border border-gray-600">
+              {Object.entries(record).map(([key, value]) => (
+                <div key={key} className="mb-3 last:mb-0">
+                  {value && typeof value === 'object' && value.type && value.properties ? (
+                    // This is a formatted Neo4j node
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-cyan-400 text-sm font-medium">
+                          {value.type}
+                        </span>
+                        {value.properties.name && (
+                          <span className="text-white font-semibold">
+                            {value.properties.name}
+                          </span>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {Object.entries(value.properties).map(([propKey, propValue]) => (
+                          propKey !== 'name' && (
+                            <div key={propKey} className="flex justify-between text-xs">
+                              <span className="text-gray-400 capitalize">
+                                {propKey.replace(/_/g, ' ')}:
+                              </span>
+                              <span className="text-gray-200 ml-2 text-right">
+                                {typeof propValue === 'object' ? 
+                                  JSON.stringify(propValue) : String(propValue)}
+                              </span>
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    // This is a primitive value
+                    <div className="text-gray-300 text-sm">
+                      <span className="text-gray-400">{key}:</span> {String(value)}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Render traditional SQL table results
+  const renderSQLResults = () => {
+    return (
+      <div className="overflow-x-auto">
+        <p className="text-gray-400 text-xs mb-2 font-medium">
+          {responseLabel}:
+        </p>
+        <table className="min-w-full divide-y divide-gray-700 text-sm text-left">
+          <thead className="bg-[#2a3a3a] text-gray-300 uppercase text-xs">
+            <tr>
+              {sqlResponse[0] &&
+                Object.keys(sqlResponse[0]).map((key, index) => (
+                  <th key={index} className="px-3 py-2">
+                    {key.replace(/_/g, " ")}
+                  </th>
+                ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-700">
+            {sqlResponse.map((row, i) => (
+              <tr key={i} className="hover:bg-[#2a3a3a]">
+                {Object.values(row).map((val, j) => (
+                  <td key={j} className="px-3 py-2 text-gray-300">
+                    {typeof val === "object" && val !== null
+                      ? JSON.stringify(val)
+                      : val}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -75,36 +173,7 @@ const SQLCard = ({
 
       {/* Query Response - Success Case */}
       {isValidResponse && (
-        <div className="overflow-x-auto">
-          <p className="text-gray-400 text-xs mb-2 font-medium">
-            {responseLabel}:
-          </p>
-          <table className="min-w-full divide-y divide-gray-700 text-sm text-left">
-            <thead className="bg-[#2a3a3a] text-gray-300 uppercase text-xs">
-              <tr>
-                {sqlResponse[0] &&
-                  Object.keys(sqlResponse[0]).map((key, index) => (
-                    <th key={index} className="px-3 py-2">
-                      {key.replace(/_/g, " ")}
-                    </th>
-                  ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700">
-              {sqlResponse.map((row, i) => (
-                <tr key={i} className="hover:bg-[#2a3a3a]">
-                  {Object.values(row).map((val, j) => (
-                    <td key={j} className="px-3 py-2 text-gray-300">
-                      {typeof val === "object" && val !== null
-                        ? JSON.stringify(val)
-                        : val}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        isFormattedNeo4j ? renderNeo4jResults() : renderSQLResults()
       )}
 
       {/* No Data Case */}
