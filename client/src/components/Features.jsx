@@ -69,7 +69,7 @@ function Features() {
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-cyan-500">
-              Voice-Form Features
+              EchoSQL Features
             </span>
           </h2>
           <p className="text-gray-300 mt-2 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
