@@ -15,7 +15,7 @@ import PDFDownloadButton from "./PDFDownloadButton";
 
 const GradientTitle = () => (
   <h1 className="text-2xl font-bold relative flex items-center gap-2">
-    <span className="bg-clip-text text-transparent bg-gradient-to-tr from-green-400 to-cyan-400">
+    <span className="text-gradient">
       History
     </span>
   </h1>
@@ -86,7 +86,7 @@ function SessionHistory({ sidebarOpen, setSidebarOpen }) {
 
     if (!sessions || !Array.isArray(sessions) || sessions.length === 0) {
       return (
-        <div className="text-gray-400 text-center p-4">
+        <div className="text-center p-4" style={{ color: 'var(--text-muted)' }}>
           No query history found
         </div>
       );
@@ -102,17 +102,29 @@ function SessionHistory({ sidebarOpen, setSidebarOpen }) {
               <button
                 onClick={() => handleSessionClick(session._id)}
                 className={`w-full cursor-pointer py-3 px-4 rounded-lg text-sm flex justify-between items-center transition-all
-                  ${
-                    isSelected
-                      ? "bg-gradient-to-r from-green-400/10 to-cyan-400/10 text-white shadow"
-                      : "hover:bg-[#2a2a2a] text-gray-300"
-                  }`}
+                  ${isSelected ? "shadow" : ""}`}
+                style={{
+                  background: isSelected 
+                    ? 'linear-gradient(to right, var(--accent-primary), var(--accent-secondary))' 
+                    : 'transparent',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) {
+                    e.target.style.background = 'var(--bg-glass)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) {
+                    e.target.style.background = 'transparent';
+                  }
+                }}
               >
                 <div className="flex flex-col items-start overflow-hidden text-left max-w-[85%]">
                   <span className="font-medium truncate w-full">
                     {session.title}
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
                     {new Date(session.createdAt).toLocaleDateString()}
                   </span>
                 </div>
@@ -161,18 +173,24 @@ function SessionHistory({ sidebarOpen, setSidebarOpen }) {
       {/* Sidebar */}
       <aside
         className={`fixed lg:sticky top-0 left-0 h-screen
-          bg-[#131313] border-r border-gray-800
           transition-transform duration-300 ease-in-out z-40
           ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }
           w-[280px] lg:w-80`}
+        style={{ 
+          background: 'var(--bg-card)', 
+          borderRight: '1px solid var(--border-primary)' 
+        }}
       >
         {/* Header */}
-        <div className="h-16 p-4 flex items-center justify-between border-b border-gray-800">
+        <div className="h-16 p-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border-primary)' }}>
           <Link
             to="/dashboard"
-            className="text-gray-400 hover:text-white transition-colors"
+            className="transition-colors"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
+            onMouseLeave={(e) => e.target.style.color = 'var(--text-muted)'}
             onClick={() => setSidebarOpen(false)} // auto-close on mobile
           >
             <FaHome size={20} />
@@ -180,7 +198,13 @@ function SessionHistory({ sidebarOpen, setSidebarOpen }) {
           <GradientTitle />
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-white p-2 hover:bg-gray-800/50 rounded-lg transition-colors"
+            className="lg:hidden p-2 rounded-lg transition-colors"
+            style={{ 
+              color: 'var(--text-primary)',
+              background: 'transparent'
+            }}
+            onMouseEnter={(e) => e.target.style.background = 'var(--bg-glass)'}
+            onMouseLeave={(e) => e.target.style.background = 'transparent'}
           >
             <FaAngleLeft size={20} />
           </button>
@@ -195,9 +219,13 @@ function SessionHistory({ sidebarOpen, setSidebarOpen }) {
       {/* Context Menu */}
       {openMenuId && (
         <div
-          className="fixed z-[60] w-12 bg-[#1e1e1e] border border-gray-700 
-            rounded-lg shadow-lg p-1 flex flex-col items-center space-y-1"
-          style={{ top: menuPosition.top, left: menuPosition.left }}
+          className="fixed z-[60] w-12 rounded-lg shadow-lg p-1 flex flex-col items-center space-y-1"
+          style={{ 
+            top: menuPosition.top, 
+            left: menuPosition.left,
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-primary)'
+          }}
         >
           <div className="w-full">
             <PDFDownloadButton

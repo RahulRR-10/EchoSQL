@@ -38,27 +38,34 @@ const WaveAnimation = () => {
 
   const getBarColor = (index) => {
     const colors = [
-      "from-emerald-400",
-      "from-teal-400",
-      "from-cyan-400",
-      "from-sky-400",
-      "from-blue-400",
-      "from-indigo-400",
+      "var(--accent-secondary)", // emerald/green
+      "#fbbf24", // yellow
+      "#f472b6", // pink
+      "#f87171", // red
+      "#60a5fa", // blue
+      "#a78bfa", // indigo
     ];
     return colors[index % colors.length];
   };
 
   return (
-    <div className="flex items-center justify-center h-40 w-full bg-black px-12 rounded-lg">
-      {bars.map((_, index) => (
-        <div
-          key={index}
-          className={`w-1.5 rounded-full bg-gradient-to-b ${getBarColor(
-            index
-          )} to-cyan-600 mx-1`}
-          style={getAnimationStyle(index)}
-        />
-      ))}
+    <div 
+      className="flex items-center justify-center h-40 w-full px-12 rounded-lg"
+      style={{ background: "var(--bg-primary)" }}
+    >
+      {bars.map((_, index) => {
+        const color = getBarColor(index);
+        return (
+          <div
+            key={index}
+            className="w-1.5 rounded-full mx-1"
+            style={{
+              ...getAnimationStyle(index),
+              background: `linear-gradient(to bottom, ${color}, var(--accent-primary))`,
+            }}
+          />
+        );
+      })}
     </div>
   );
 };

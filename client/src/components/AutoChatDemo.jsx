@@ -77,9 +77,13 @@ const AutoChatDemo = ({ setActiveChat }) => {
           transition={{ duration: 0.5 }}
           className={`px-4 py-2 rounded-md max-w-[80%] whitespace-pre-line ${
             msg.sender === "User"
-              ? "bg-cyan-500 text-black self-end ml-auto"
-              : "bg-gray-800 text-white self-start"
+              ? "self-end ml-auto"
+              : "self-start"
           }`}
+          style={{
+            background: msg.sender === "User" ? 'var(--accent-primary)' : 'var(--bg-glass)',
+            color: 'var(--text-primary)'
+          }}
         >
           {msg.message}
         </motion.div>

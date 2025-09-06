@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Layout from "./components/Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { ThemeProvider } from "./context/Theme";
 import { useEffect } from "react";
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
     window.scrollTo(0, 0); // Scrolls to the top when route changes
   }, [pathname]);
   return (
-    <Routes>
+    <ThemeProvider>
+      <Routes>
       <Route path="/" element={<Home />} />
       <Route
         path="/auth/login"
@@ -85,6 +87,7 @@ function App() {
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </ThemeProvider>
   );
 }
 

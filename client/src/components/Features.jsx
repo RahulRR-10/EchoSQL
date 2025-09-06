@@ -59,7 +59,7 @@ function Features() {
   ];
 
   return (
-    <div className="bg-gradient-to-r rounded-xl from-black via-gray-900 to-purple-900 py-12 md:py-24 w-[95vw] mt-12">
+    <div className="rounded-xl py-12 md:py-24 w-[95vw] mt-12" style={{ background: 'var(--bg-card)' }}>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0 }}
@@ -67,12 +67,10 @@ function Features() {
           transition={{ duration: 0.2 }}
           className="text-center mb-10 md:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-cyan-500">
-              EchoSQL Features
-            </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+            EchoSQL Features
           </h2>
-          <p className="text-gray-300 mt-2 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
+          <p className="mt-2 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
             Explore the future of interaction with our cutting-edge capabilities
           </p>
         </motion.div>
@@ -86,17 +84,22 @@ function Features() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-800 bg-opacity-30 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-2xl border border-gray-700 shadow-lg h-auto w-full"
+              className="backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-2xl border shadow-lg h-auto w-full"
+              style={{ 
+                background: 'var(--bg-glass)', 
+                borderColor: 'var(--border-accent)',
+                boxShadow: '0 8px 32px var(--shadow-glow)'
+              }}
             >
               <div className="flex items-center mb-4 sm:mb-6">
-                <div className="p-2 sm:p-4 rounded-lg bg-gray-800">
+                <div className="p-2 sm:p-4 rounded-lg" style={{ background: 'var(--bg-card)' }}>
                   {features[selectedFeature].icon}
                 </div>
-                <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white ml-3 sm:ml-4">
+                <h3 className="text-lg sm:text-2xl md:text-3xl font-bold ml-3 sm:ml-4" style={{ color: 'var(--text-primary)' }}>
                   {features[selectedFeature].title}
                 </h3>
               </div>
-              <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 {features[selectedFeature].description}
               </p>
             </motion.div>
@@ -118,9 +121,14 @@ function Features() {
                   <div
                     className={`hexagon-inner flex items-center justify-center p-1 sm:p-2 md:p-4 ${
                       selectedFeature === index
-                        ? "bg-gradient-to-br from-blue-500 to-purple-600"
-                        : "bg-gray-800 bg-opacity-50 hover:bg-opacity-70"
+                        ? ""
+                        : "hover:opacity-70"
                     }`}
+                    style={{
+                      background: selectedFeature === index 
+                        ? 'linear-gradient(to bottom right, var(--accent-primary), var(--accent-secondary))' 
+                        : 'var(--bg-glass)'
+                    }}
                   >
                     <motion.div
                       animate={{

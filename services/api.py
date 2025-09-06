@@ -22,6 +22,10 @@ load_dotenv()
 
 groq_api_key_2 = os.getenv("GROQ_API_KEY_2")
 
+if not groq_api_key_2:
+    print("Warning: GROQ_API_KEY_2 environment variable not set. Please set it in your .env file or environment.")
+    print("You can create a .env file in the services directory with: GROQ_API_KEY_2=your_api_key_here")
+    groq_api_key_2 = "dummy_key_for_development"  # Fallback for development
 
 api = FastAPI()
 client = Groq(api_key=groq_api_key_2)
@@ -446,6 +450,11 @@ load_dotenv()
 TWILIO_NUMBER = os.getenv("TWILLIO_NUMBER")  
 ACCOUNT_SID    = os.getenv("ACCOUNT_SID")
 AUTH_TOKEN    = os.getenv("AUTH_TOKEN")
+
+# Check for missing Twilio configuration
+if not all([TWILIO_NUMBER, ACCOUNT_SID, AUTH_TOKEN]):
+    print("Warning: Twilio environment variables not set. WhatsApp bot functionality will be limited.")
+    print("Please set TWILLIO_NUMBER, ACCOUNT_SID, and AUTH_TOKEN in your .env file")
 
 CHAT_API_URL  = "http://localhost:1111/chat"   
 

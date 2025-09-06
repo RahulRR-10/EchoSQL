@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 function Home() {
   return (
-    <div className="bg-[#000000]">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       <Navbar />
       <DemoChat />
       <CardSection />

@@ -21,7 +21,7 @@ function Layout() {
   }, []);
 
   return (
-    <div className="min-h-screen flex bg-black">
+    <div className="min-h-screen flex" style={{ background: 'var(--bg-primary)' }}>
       <SessionHistory
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}

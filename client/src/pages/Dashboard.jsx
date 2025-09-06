@@ -9,6 +9,7 @@ import { GrMysql } from "react-icons/gr";
 import { useAuth } from "../context/Auth";
 import { createQuerySession } from "../redux/slices/querySession";
 import { HiOutlineLogout } from "react-icons/hi";
+import ThemeToggle from "../components/ThemeToggle";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -60,28 +61,31 @@ function Dashboard() {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-b from-black to-gray-900 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-primary)' }}>
       {/* Header - Fixed height */}
-      <div className="p-4 bg-[#0a1a1a] border-b border-gray-800">
-        <div className="container mx-auto flex justify-between items-center px-4">
+      <div className="glass-dark p-6 border-b border-gray-700/30 backdrop-blur-xl">
+        <div className="container mx-auto flex justify-between items-center px-6">
           <Link
             to="/"
-            className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 ml-12"
+            className="text-3xl font-bold text-gradient font-poppins animate-fade-in-up"
           >
             EchoSQL
           </Link>
           <div className="flex items-center space-x-4">
-            <Link to="/profile" className="flex items-center space-x-4">
-              <div className="text-gray-300 max-sm:hidden">{user?.email}</div>
+            <ThemeToggle />
+            <Link to="/profile" className="flex items-center space-x-4 group">
+              <div className="text-gray-300 max-sm:hidden font-inter group-hover:text-cyan-400 transition-colors duration-300">
+                {user?.email}
+              </div>
               <img
                 src={user?.profileImage ? ((import.meta.env.VITE_API_URL || "").replace("/api/v1", "") + "/" + user?.profileImage) : "/user.jpg"}
                 alt="Profile"
-                className="w-8 h-8 rounded-full border border-gray-700"
+                className="w-10 h-10 rounded-full border-2 border-cyan-400/30 hover:border-cyan-400 transition-all duration-300 hover:scale-110"
               />
             </Link>
             <button
               onClick={logout}
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 rounded-lg"
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-300 rounded-xl p-2 hover:bg-gray-800/50"
             >
               <HiOutlineLogout size={24} />
             </button>
@@ -90,54 +94,58 @@ function Dashboard() {
       </div>
 
       {/* Main Content - Scrollable */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400">
-            Your Databases
-          </h1>
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="container mx-auto px-6 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4 text-gradient font-poppins animate-fade-in-up">
+              Your Databases
+            </h1>
+            <p className="text-gray-400 font-inter text-lg animate-fade-in-up">
+              Manage and interact with your database connections
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {databases.map((db) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {databases.map((db, index) => (
               <div
                 key={db._id}
                 onClick={() => handleClick(db._id)}
-                className={`relative group cursor-pointer rounded-xl px-6 py-8 
-                  backdrop-blur-sm border-2 flex flex-col items-center text-center
+                className={`card card-hover group cursor-pointer px-8 py-10 
+                  flex flex-col items-center text-center animate-scale-in
                   ${
                     selectedDatabase === db._id
-                      ? "border-cyan-400 bg-[#0a1a1a]/80"
-                      : "border-gray-700/50 hover:border-cyan-500/30 bg-[#0a1a1a]/50"
-                  }
-                  transition-all duration-300 transform hover:scale-[1.02]
-                  hover:shadow-[0_0_15px_rgba(34,211,238,0.1)]`}
+                      ? "border-cyan-400/60 glass-cyan shadow-glow"
+                      : "border-gray-700/50 hover:border-cyan-400/40 glass-dark"
+                  }`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Icon - large */}
-                <div className="text-6xl text-cyan-400 mb-4">
+                <div className="text-7xl text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300">
                   {db.dbType === "mysql" ? <GrMysql /> : <BiLogoPostgresql />}
                 </div>
 
                 {/* DB Name */}
-                <h3 className="text-2xl font-semibold text-white group-hover:text-cyan-400 transition-colors mb-2">
+                <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors mb-3 font-jetbrains">
                   {db.database.toUpperCase()}
                 </h3>
 
                 {/* Created Date */}
-                <div className="text-gray-400 text-sm flex items-center justify-center mb-4">
+                <div className="text-gray-400 text-sm flex items-center justify-center mb-6 font-inter">
                   <FaDatabase className="mr-2 text-cyan-400" />
                   {new Date(db.createdAt).toLocaleDateString()}
                 </div>
 
                 {/* Drop-down button */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out w-full ${
+                  className={`overflow-hidden transition-all duration-500 ease-in-out w-full ${
                     selectedDatabase === db._id
-                      ? "max-h-24 opacity-100"
+                      ? "max-h-32 opacity-100"
                       : "max-h-0 opacity-0"
                   }`}
                 >
                   <button
                     onClick={() => handleVoiceDB(db._id)}
-                    className="w-full cursor-pointer bg-gradient-to-r from-green-400 to-cyan-400 text-white rounded-xl p-2 mt-2 hover:opacity-90 transition-all"
+                    className="btn-primary w-full font-jetbrains text-sm py-3 mt-4 animate-scale-in"
                   >
                     VoiceDB
                   </button>
@@ -148,15 +156,13 @@ function Dashboard() {
             {/* Create New DB Button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="relative rounded-xl p-6 border-2 border-dashed 
-                backdrop-blur-sm bg-[#0a1a1a]/50
-                border-gray-700/50 hover:border-cyan-500/30
-                transition-all duration-300 group
-                flex flex-col items-center justify-center min-h-[200px]
-                hover:shadow-[0_0_15px_rgba(34,211,238,0.1)]"
+              className="card card-hover group
+                flex flex-col items-center justify-center min-h-[280px]
+                border-dashed border-2 border-gray-600/50 hover:border-cyan-400/50
+                animate-scale-in"
             >
-              <FaPlus className="text-4xl text-gray-500 group-hover:text-cyan-400 transition-colors mb-2" />
-              <span className="text-gray-500 group-hover:text-cyan-400 transition-colors">
+              <FaPlus className="text-5xl text-gray-500 group-hover:text-cyan-400 transition-colors mb-4 group-hover:scale-110" />
+              <span className="text-gray-500 group-hover:text-cyan-400 transition-colors font-inter text-lg">
                 Create New Database
               </span>
             </button>
