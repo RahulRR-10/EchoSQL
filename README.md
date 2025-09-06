@@ -936,11 +936,6 @@ Special thanks to:
 
 <div align="center">
 
-### 🌟 **Star us on GitHub if EchoSQL helps you unlock insights from your data!** ⭐
-
-[![GitHub stars](https://img.shields.io/github/stars/abhay271/aura?style=social)](https://github.com/abhay271/aura/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/abhay271/aura?style=social)](https://github.com/abhay271/aura/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/abhay271/aura)](https://github.com/abhay271/aura/issues)
 
 ---
 
