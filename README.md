@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🚀 **Aura** - AI-Powered Database Intelligence Platform
+# 🚀 **EchoSQL** - AI-Powered Database Intelligence Platform
 
-<img src="client/public/hero.png" alt="Aura Logo" width="350px">
+<img src="client/public/hero.png" alt="EchoSQL Logo" width="350px">
 
 ### _Transform Natural Language into Database Insights_
 
@@ -23,9 +23,9 @@
 
 ## 🌟 **Overview**
 
-**Aura** is a next-generation conversational database platform that bridges the gap between natural language and complex database operations. Built with cutting-edge AI technology, Aura empowers users to explore, analyze, and visualize their data through simple conversations.
+**EchoSQL** is a next-generation conversational database platform that bridges the gap between natural language and complex database operations. Built with cutting-edge AI technology, EchoSQL empowers users to explore, analyze, and visualize their data through simple conversations.
 
-### 🎯 **What Makes Aura Special?**
+### 🎯 **What Makes EchoSQL Special?**
 
 🧠 **Schema-Aware Intelligence** - Advanced LLM integration that understands your database structure  
 🎙️ **Voice & Text Interactions** - Seamless multi-modal query input with real-time processing  
@@ -151,8 +151,9 @@
     </td>
     <td valign="top">
       <ul>
-        <li><strong>MySQL 8.0+</strong> - Primary SQL database</li>
-        <li><strong>PostgreSQL 13+</strong> - Alternative SQL support</li>
+        <li><strong>MySQL 8.0+</strong> - Relational database support</li>
+        <li><strong>PostgreSQL 13+</strong> - Advanced SQL features</li>
+        <li><strong>Neo4j 5.0+</strong> - Graph database & supply chain analytics</li>
         <li><strong>MongoDB</strong> - User & session data</li>
         <li><strong>Redis</strong> - Caching layer</li>
         <li><strong>Docker</strong> - Containerization</li>
@@ -163,10 +164,66 @@
 
 ---
 
-## 🔄 **How Aura Works**
+## 🕸️ **Neo4j Graph Database Integration**
 
 <div align="center">
-  <img src="client/public/voice.png" alt="Aura Workflow" width="700px">
+  <img src="client/public/hero.png" alt="Supply Chain Network" width="400px">
+</div>
+
+### 🏭 **Enterprise Supply Chain Analytics**
+
+EchoSQL features a comprehensive **Supply Chain Network** built on Neo4j graph database, demonstrating the power of relationship-based data analysis:
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🌐 **Network Components**</h4>
+      <ul>
+        <li>🏭 **Suppliers** - Global raw material providers</li>
+        <li>🔧 **Manufacturers** - Production facilities worldwide</li>
+        <li>🚛 **Distributors** - Logistics and transportation</li>
+        <li>🏪 **Retailers** - End-customer touchpoints</li>
+        <li>📦 **Products** - Finished goods and components</li>
+        <li>⚙️ **Materials** - Raw materials and resources</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h4>🔗 **Relationship Types**</h4>
+      <ul>
+        <li>🔗 **SUPPLIES** - Supplier → Material flows</li>
+        <li>🏭 **MANUFACTURES** - Production relationships</li>
+        <li>🚚 **SHIPS_TO** - Distribution networks</li>
+        <li>📦 **STOCKS** - Inventory management</li>
+        <li>⚠️ **HAS_RISK** - Risk assessment nodes</li>
+        <li>📊 **HAS_PERFORMANCE** - KPI tracking</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### 💡 **Sample Neo4j Queries**
+
+```cypher
+// Find supply chain paths for smartphones
+MATCH path = (s:Supplier)-[:SUPPLIES]->()-[:USED_IN]->(p:Product {name: "Smart Phone Pro"})
+RETURN path
+
+// Identify supply chain risks
+MATCH (n)-[:HAS_RISK]->(r:Risk {impact: "High"})
+RETURN n.name, r.description, r.probability
+
+// Analyze distribution network efficiency
+MATCH (m:Manufacturer)-[:SHIPS_TO]->(d:Distributor)-[:DELIVERS_TO]->(retail:Retailer)
+WHERE d.delivery_speed = "Express"
+RETURN m.name, d.name, retail.name, d.cost_per_delivery
+```
+
+---
+
+## 🔄 **How EchoSQL Works**
+
+<div align="center">
+  <img src="client/public/voice.png" alt="EchoSQL Workflow" width="700px">
 </div>
 
 ### 🚀 **End-to-End User Journey**
@@ -193,7 +250,7 @@
     <td>
       <h3>🗄️ **Database Connection Setup**</h3>
       <ul>
-        <li>🔌 Add MySQL/PostgreSQL credentials via intuitive dashboard</li>
+        <li>🔌 Add MySQL/PostgreSQL/Neo4j credentials via intuitive dashboard</li>
         <li>🔐 Encrypted storage of connection details in MongoDB</li>
         <li>📊 Real-time connection health monitoring</li>
         <li>🔍 Automatic schema introspection and validation</li>
@@ -315,7 +372,7 @@
 </table>
 
 <div align="center">
-  <p><em>🎯 **Aura transforms complex database queries into simple conversations, making data accessible to everyone regardless of technical expertise.**</em></p>
+  <p><em>🎯 **EchoSQL transforms complex database queries into simple conversations, making data accessible to everyone regardless of technical expertise.**</em></p>
 </div>
 
 ---
@@ -339,7 +396,7 @@
   </tr>
   <tr>
     <td><strong>🔗 SQL Database</strong></td>
-    <td>MySQL 8.0+ or PostgreSQL 13+ for data analysis</td>
+    <td>MySQL 8.0+, PostgreSQL 13+, or Neo4j 5.0+ for data analysis</td>
   </tr>
   <tr>
     <td><strong>🤖 Groq API</strong></td>
@@ -430,7 +487,7 @@ PORT=5000
 NODE_ENV=development
 
 # Database
-MONGODB_URI=mongodb://localhost:27017/aura
+MONGODB_URI=mongodb://localhost:27017/echosql
 CORS_ORIGIN=http://localhost:5173
 
 # JWT Security
@@ -484,7 +541,7 @@ POSTGRES_DATABASE=your-database-name
 # Frontend Configuration
 VITE_API_BASE_URL=http://localhost:5000/api/v1
 VITE_PYTHON_API_URL=http://localhost:1111
-VITE_APP_NAME=Aura
+VITE_APP_NAME=EchoSQL
 VITE_APP_VERSION=2.0.0
 ```
 
@@ -517,7 +574,7 @@ To enable voice input:
 ```
 🗣️ User: "Show me customers who spent more than $1000 last month"
 
-🤖 Aura: Generates and executes:
+🤖 EchoSQL: Generates and executes:
 SELECT c.name, SUM(o.total) as total_spent
 FROM customers c
 JOIN orders o ON c.id = o.customer_id
@@ -651,7 +708,7 @@ CHUNK_SIZE=8192
 
 ## 🗄️ **Sample Database Setup**
 
-Aura comes with sample databases to help you get started quickly:
+EchoSQL comes with sample databases to help you get started quickly:
 
 <details>
 <summary><b>🏢 Airline Database</b></summary>
@@ -792,10 +849,10 @@ Found a bug? Please create an issue with:
 
 ### 💬 **Get Help**
 
-- 📧 **Email**: support@aura-ai.com
-- 💬 **Discord**: [Join our community](https://discord.gg/aura-ai)
-- 📋 **GitHub Issues**: [Report bugs & feature requests](https://github.com/abhay271/aura/issues)
-- 📖 **Documentation**: [Full documentation](https://docs.aura-ai.com)
+- 📧 **Email**: support@echosql.com
+- 💬 **Discord**: [Join our community](https://discord.gg/echosql)
+- 📋 **GitHub Issues**: [Report bugs & feature requests](https://github.com/RahulRR-10/EchoSQL-Project/issues)
+- 📖 **Documentation**: [Full documentation](https://docs.echosql.com)
 
 ### 🆘 **Common Issues**
 
@@ -879,7 +936,7 @@ Special thanks to:
 
 <div align="center">
 
-### 🌟 **Star us on GitHub if Aura helps you unlock insights from your data!** ⭐
+### 🌟 **Star us on GitHub if EchoSQL helps you unlock insights from your data!** ⭐
 
 [![GitHub stars](https://img.shields.io/github/stars/abhay271/aura?style=social)](https://github.com/abhay271/aura/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/abhay271/aura?style=social)](https://github.com/abhay271/aura/network/members)
