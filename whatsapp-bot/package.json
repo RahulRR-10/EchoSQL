@@ -1,0 +1,23 @@
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "A WhatsApp bot using Twilio",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "twilio",
+    "bot"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^17.2.2",
+    "express": "^4.18.2"
+  }
+}
