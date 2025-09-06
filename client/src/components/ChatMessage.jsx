@@ -11,12 +11,12 @@ const ChatMessage = ({ message }) => {
   const [visualizationData, setVisualizationData] = useState(null);
   const [isLoadingViz, setIsLoadingViz] = useState(false);
   const [vizError, setVizError] = useState(null);
-  
+
   // Safety check for message object
   if (!message) {
     return null;
   }
-  
+
   const isUser = message.user && message.user.username;
 
   const handleVisualize = async () => {
@@ -37,9 +37,10 @@ const ChatMessage = ({ message }) => {
   };
 
   // Render SQLCard if it's a response message (SQL or Neo4j)
-  const hasQueryResponse = (message.sqlQuery && message.sqlResponse) || 
-                          (message.cypherQuery && message.graphResult);
-  
+  const hasQueryResponse =
+    (message.sqlQuery && message.sqlResponse) ||
+    (message.cypherQuery && message.graphResult);
+
   if (hasQueryResponse) {
     return (
       <motion.div
@@ -54,26 +55,30 @@ const ChatMessage = ({ message }) => {
           sqlResponse={message.sqlResponse || message.graphResult}
           summary={message.summary}
           title={message.title}
-          databaseType={message.databaseType || (message.cypherQuery ? "neo4j" : "sql")}
+          databaseType={
+            message.databaseType || (message.cypherQuery ? "neo4j" : "sql")
+          }
           thoughtProcess={message.thoughtProcess}
           executionTime={message.executionTime}
           timestamp={message.createdAt}
         />
 
         {/* Only show visualization button for successful queries with array data */}
-        {message.sqlResponse && Array.isArray(message.sqlResponse) && message.sqlResponse.length > 0 && (
-          <motion.button
-            onClick={handleVisualize}
-            disabled={isLoadingViz}
-            className="mt-2 px-4 py-2 bg-[#1a2a2a] border border-cyan-500/30 
+        {message.sqlResponse &&
+          Array.isArray(message.sqlResponse) &&
+          message.sqlResponse.length > 0 && (
+            <motion.button
+              onClick={handleVisualize}
+              disabled={isLoadingViz}
+              className="mt-2 px-4 py-2 bg-[#1a2a2a] border border-cyan-500/30 
               rounded-lg text-sm text-cyan-400 hover:bg-[#2a3a3a] 
               transition-all duration-200 disabled:opacity-50"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {isLoadingViz ? "Generating..." : "Visualize Data"}
-          </motion.button>
-        )}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {isLoadingViz ? "Generating..." : "Visualize Data"}
+            </motion.button>
+          )}
 
         {/* Error Message */}
         {vizError && (
@@ -87,14 +92,16 @@ const ChatMessage = ({ message }) => {
         )}
 
         {/* Visualization Component */}
-        {visualizationData && message.sqlResponse && Array.isArray(message.sqlResponse) && (
-          <DataVisualization
-            visualizationData={{
-              data: message.sqlResponse,
-              recommended_graphs: visualizationData.recommended_graphs,
-            }}
-          />
-        )}
+        {visualizationData &&
+          message.sqlResponse &&
+          Array.isArray(message.sqlResponse) && (
+            <DataVisualization
+              visualizationData={{
+                data: message.sqlResponse,
+                recommended_graphs: visualizationData.recommended_graphs,
+              }}
+            />
+          )}
       </motion.div>
     );
   }

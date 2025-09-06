@@ -33,7 +33,7 @@ function Dashboard() {
         title: `${database.database} - ${new Date().toLocaleDateString()}`,
         description: `New ${database.dbType.toUpperCase()} session`,
       };
-      
+
       const response = await dispatch(createQuerySession(sessionData)).unwrap();
       navigate(`/chat/${response._id}`);
     } catch (error) {
@@ -75,7 +75,10 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-primary)' }}>
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ background: "var(--bg-primary)" }}
+    >
       {/* Header - Fixed height */}
       <div className="glass-dark p-6 border-b border-gray-700/30 backdrop-blur-xl">
         <div className="container mx-auto flex justify-between items-center px-6">
@@ -92,7 +95,16 @@ function Dashboard() {
                 {user?.email}
               </div>
               <img
-                src={user?.profileImage ? ((import.meta.env.VITE_API_URL || "").replace("/api/v1", "") + "/" + user?.profileImage) : "/user.jpg"}
+                src={
+                  user?.profileImage
+                    ? (import.meta.env.VITE_API_URL || "").replace(
+                        "/api/v1",
+                        ""
+                      ) +
+                      "/" +
+                      user?.profileImage
+                    : "/user.jpg"
+                }
                 alt="Profile"
                 className="w-10 h-10 rounded-full border-2 border-cyan-400/30 hover:border-cyan-400 transition-all duration-300 hover:scale-110"
               />
@@ -135,9 +147,15 @@ function Dashboard() {
               >
                 {/* Icon - large */}
                 <div className="text-7xl text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {db.dbType === "mysql" ? <GrMysql /> : 
-                   db.dbType === "postgresql" ? <BiLogoPostgresql /> :
-                   db.dbType === "neo4j" ? <SiNeo4J /> : <BiLogoPostgresql />}
+                  {db.dbType === "mysql" ? (
+                    <GrMysql />
+                  ) : db.dbType === "postgresql" ? (
+                    <BiLogoPostgresql />
+                  ) : db.dbType === "neo4j" ? (
+                    <SiNeo4J />
+                  ) : (
+                    <BiLogoPostgresql />
+                  )}
                 </div>
 
                 {/* DB Name */}

@@ -17,12 +17,13 @@ const SQLCard = ({
   const [showThoughtProcess, setShowThoughtProcess] = useState(false);
 
   // Determine if this is a Neo4j/Cypher query
-  const isNeo4j = databaseType === "neo4j" || (sqlQuery && (
-    sqlQuery.toLowerCase().includes('match') || 
-    sqlQuery.toLowerCase().includes('return') ||
-    sqlQuery.toLowerCase().includes('create') ||
-    sqlQuery.toLowerCase().includes('merge')
-  ));
+  const isNeo4j =
+    databaseType === "neo4j" ||
+    (sqlQuery &&
+      (sqlQuery.toLowerCase().includes("match") ||
+        sqlQuery.toLowerCase().includes("return") ||
+        sqlQuery.toLowerCase().includes("create") ||
+        sqlQuery.toLowerCase().includes("merge")));
 
   // Labels based on database type
   const queryLabel = isNeo4j ? "Cypher Query" : "SQL Query";
@@ -49,16 +50,12 @@ const SQLCard = ({
 
       {/* Title (if provided) */}
       {title && (
-        <div className="text-cyan-400 text-lg font-semibold">
-          {title}
-        </div>
+        <div className="text-cyan-400 text-lg font-semibold">{title}</div>
       )}
 
       {/* SQL/Cypher Query */}
       <div className="bg-[#0a1a1a] rounded-lg p-3">
-        <p className="text-gray-400 text-xs mb-2 font-medium">
-          {queryLabel}:
-        </p>
+        <p className="text-gray-400 text-xs mb-2 font-medium">{queryLabel}:</p>
         <pre className="text-cyan-400 text-xs md:text-sm overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
           <code className="whitespace-pre-wrap break-words">{sqlQuery}</code>
         </pre>
@@ -98,7 +95,9 @@ const SQLCard = ({
                 <tr key={i} className="hover:bg-[#2a3a3a]">
                   {Object.values(row).map((val, j) => (
                     <td key={j} className="px-3 py-2 text-gray-300">
-                      {typeof val === 'object' && val !== null ? JSON.stringify(val) : val}
+                      {typeof val === "object" && val !== null
+                        ? JSON.stringify(val)
+                        : val}
                     </td>
                   ))}
                 </tr>
