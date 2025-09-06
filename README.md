@@ -937,7 +937,7 @@ Special thanks to:
 <div align="center">
 
 
----
+
 
 <p><strong>🎯 Transform your data conversations with Aura - Where AI meets intuitive database exploration!</strong></p>
 
