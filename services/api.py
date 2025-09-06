@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from utils.db import configure_db, get_database_schema
 from utils.chat import chat_db
+from utils.rag_service import get_rag_service
 from groq import Groq
 # Using requests for simple translation instead of googletrans
 import os
@@ -126,7 +127,7 @@ async def chat_with_db(request_data: dict):
     
         result = chat_db(
             db_config.dbtype, connection_host, db_config.user, 
-            db_config.password, db_config.dbname, query_request.query
+            db_config.password, db_config.dbname, query_request.query, db_config_data
         )
         
         return result
@@ -527,6 +528,28 @@ async def recommend_graph(request: GraphRecommendationRequest) -> Dict[str, List
             final_charts.append(chart)
     
     return {"recommended_graphs": final_charts[:3]}
+
+@api.get("/rag-status")
+async def get_rag_status():
+    """Get RAG service status and statistics (for debugging/monitoring)"""
+    try:
+        rag_service = get_rag_service()
+        stats = rag_service.get_rag_stats()
+        return {
+            "rag_service": "active",
+            "statistics": stats,
+            "configuration": {
+                "similarity_threshold": rag_service.similarity_threshold,
+                "max_context_queries": rag_service.max_context_queries,
+                "recent_days": rag_service.recent_days
+            }
+        }
+    except Exception as e:
+        return {
+            "rag_service": "error",
+            "error": str(e),
+            "message": "RAG service encountered an error"
+        }
 
 load_dotenv()
 

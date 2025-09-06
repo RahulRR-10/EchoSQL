@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from langchain_groq import ChatGroq
 from utils.db import configure_db, extract_sql_query, is_valid_sql
+from utils.rag_service import get_rag_service
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
 from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
 from langchain.agents.agent_types import AgentType
@@ -64,8 +65,26 @@ def extract_sql_from_response(response_text: str) -> str:
     # If all else fails, return the text as is (might be the SQL query)
     return response_text.strip()
 
-def process_database_query(db_name, host, user, password, database, query, llm, engine, db):
-    """Helper function to process database queries for both PostgreSQL and MySQL"""
+def process_database_query(db_name, host, user, password, database, query, llm, engine, db, database_config=None):
+    """Helper function to process database queries for both PostgreSQL and MySQL with RAG enhancement"""
+    
+    # Initialize RAG service
+    rag_service = get_rag_service()
+    
+    # Try to retrieve relevant context from query history
+    rag_context = None
+    enhanced_query = query
+    
+    try:
+        rag_context = rag_service.retrieve_relevant_context(query, database_config or {})
+        if rag_context:
+            enhanced_query = rag_service.build_enhanced_prompt(query, rag_context)
+            print(f"✅ RAG: Enhanced query with {len(rag_context['relevant_queries'])} relevant examples")
+        else:
+            print("🔍 RAG: No relevant context found, proceeding without enhancement")
+    except Exception as e:
+        print(f"⚠️ RAG: Context retrieval failed ({e}), proceeding without enhancement")
+    
     # Setup to capture agent's thought process
     capture_handler = CaptureStdoutCallbackHandler()
     capture_handler.start_capturing()
@@ -93,9 +112,12 @@ def process_database_query(db_name, host, user, password, database, query, llm, 
         else:
             db_version = db_name
             
+        # Use enhanced query if RAG context is available
+        base_query = enhanced_query if rag_context else query
+            
         sql_generation_prompt = f"""
         For the following question, generate a valid SQL query to answer it.
-        Question: "{query}"
+        Question: "{base_query}"
         
         You must return a valid SQL query that would run in {db_version}.
         The query should only start with SELECT (read-only operation).
@@ -219,7 +241,8 @@ def process_database_query(db_name, host, user, password, database, query, llm, 
         else:
             title = "No Results Found"
         
-        return {
+        # Prepare response with RAG metadata (optional, for debugging)
+        response = {
             "user_query": query,
             "sql_query": sql_query,
             "sql_result": sql_result_list if sql_result_list else sql_result_str,
@@ -228,13 +251,23 @@ def process_database_query(db_name, host, user, password, database, query, llm, 
             "agent_thought_process": thought_process
         }
         
+        # Add RAG metadata if context was used (optional for debugging)
+        if rag_context:
+            response["rag_metadata"] = {
+                "context_used": True,
+                "relevant_examples": len(rag_context['relevant_queries']),
+                "avg_similarity": rag_context['retrieval_info']['avg_similarity']
+            }
+        
+        return response
+        
     except Exception as e:
         # Ensure stdout is restored even if an error occurs
         capture_handler.stop_capturing()
         raise e
 
-def chat_db(db_name, host, user, password, database, query):
-    """Main function to handle database chat queries"""
+def chat_db(db_name, host, user, password, database, query, database_config=None):
+    """Main function to handle database chat queries with RAG enhancement"""
     if db_name == "neo4j":
         # Handle Neo4j graph database queries
         from utils.neo4j_chat import chat_neo4j
@@ -257,7 +290,7 @@ def chat_db(db_name, host, user, password, database, query):
         
         db, engine = configure_db(db_name, host, user, password, database)
         
-        return process_database_query(db_name, host, user, password, database, query, llm, engine, db)
+        return process_database_query(db_name, host, user, password, database, query, llm, engine, db, database_config)
         
     except Exception as e:
         import traceback
