@@ -2,7 +2,7 @@
 
 # 🚀 **EchoSQL** - AI-Powered Database Intelligence Platform
 
-<img src="client/public/hero.png" alt="EchoSQL Logo" width="350px">
+<img src="client/public/hero.png" alt="EchoSQL Logo" width="200px">
 
 ### _Transform Natural Language into Database Insights_
 
@@ -106,7 +106,7 @@
 ## 🏗️ **System Architecture**
 
 <div align="center">
-  <img src="client/public/database.png" alt="Architecture Diagram" width="200px">
+  <img src="client/public/database.png" alt="Architecture Diagram" width="150px">
 </div>
 
 ### 🛠️ **Technology Stack**
@@ -167,7 +167,7 @@
 ## 🕸️ **Neo4j Graph Database Integration**
 
 <div align="center">
-  <img src="client/public/hero.png" alt="Supply Chain Network" width="400px">
+  <img src="client/public/hero.png" alt="Supply Chain Network" width="250px">
 </div>
 
 ### 🏭 **Enterprise Supply Chain Analytics**
@@ -223,7 +223,7 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
 ## 🔄 **How EchoSQL Works**
 
 <div align="center">
-  <img src="client/public/voice.png" alt="EchoSQL Workflow" width="700px">
+  <img src="client/public/voice.png" alt="EchoSQL Workflow" width="400px">
 </div>
 
 ### 🚀 **End-to-End User Journey**
@@ -611,21 +611,21 @@ Generate professional reports with:
   <table>
     <tr>
       <td align="center">
-        <img src="client/public/audio.png" alt="Voice Interface" width="400px">
+        <img src="client/public/audio.png" alt="Voice Interface" width="300px">
         <br><em>🎙️ Voice Query Interface</em>
       </td>
       <td align="center">
-        <img src="client/public/translate.png" alt="Data Visualization" width="400px">
+        <img src="client/public/translate.png" alt="Data Visualization" width="300px">
         <br><em>📊 Smart Data Visualization</em>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img src="client/public/profile.png" alt="Dashboard" width="400px">
+        <img src="client/public/profile.png" alt="Dashboard" width="300px">
         <br><em>📱 User Dashboard</em>
       </td>
       <td align="center">
-        <img src="client/public/database.png" alt="Schema View" width="400px">
+        <img src="client/public/database.png" alt="Schema View" width="300px">
         <br><em>🗄️ Database Management</em>
       </td>
     </tr>
@@ -935,9 +935,6 @@ Special thanks to:
 ---
 
 <div align="center">
-
-
-
 
 <p><strong>🎯 Transform your data conversations with Aura - Where AI meets intuitive database exploration!</strong></p>
 
