@@ -26,6 +26,7 @@ const createQueryMessage = async (req, res) => {
           user: database.username,
           password: database.password,
           dbname: database.database,
+          uri: database.uri, // Add uri field for Neo4j connections
         },
       });
 
@@ -59,25 +60,45 @@ const createQueryMessage = async (req, res) => {
       }
     }
 
+    // Handle both SQL and Neo4j responses
     const {
       user_query,
       sql_query,
       sql_result,
+      cypher_query,
+      graph_result,
       summary,
       agent_thought_process,
       title,
+      database_type,
     } = response;
 
-    const queryMessage = new QueryMessage({
+    // Use appropriate fields based on database type
+    const queryField = sql_query || cypher_query || null;
+    const resultField = sql_result || graph_result || null;
+    const isNeo4j = database_type === "neo4j" || cypher_query;
+
+    const queryMessageData = {
       session: req.body.sessionId,
       user: req.user._id,
       requestQuery: user_query,
-      sqlQuery: sql_query,
-      sqlResponse: sql_result,
       summary,
       thoughtProcess: agent_thought_process,
       executionTime: Date.now() - startTime,
-    });
+      title,
+      databaseType: database_type,
+    };
+
+    // Add appropriate query and response fields based on database type
+    if (isNeo4j) {
+      queryMessageData.cypherQuery = queryField;
+      queryMessageData.graphResult = resultField;
+    } else {
+      queryMessageData.sqlQuery = queryField;
+      queryMessageData.sqlResponse = resultField;
+    }
+
+    const queryMessage = new QueryMessage(queryMessageData);
 
     const savedMessage = await queryMessage.save();
 

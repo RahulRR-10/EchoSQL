@@ -235,7 +235,11 @@ def process_database_query(db_name, host, user, password, database, query, llm, 
 
 def chat_db(db_name, host, user, password, database, query):
     """Main function to handle database chat queries"""
-    if db_name not in ["postgresql", "mysql"]:
+    if db_name == "neo4j":
+        # Handle Neo4j graph database queries
+        from utils.neo4j_chat import chat_neo4j
+        return chat_neo4j(db_name, host, user, password, database, query)
+    elif db_name not in ["postgresql", "mysql"]:
         raise HTTPException(status_code=400, detail=f"Unsupported database type: {db_name}")
     
     if not groq_api_key_5:

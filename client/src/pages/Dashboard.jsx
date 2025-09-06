@@ -6,6 +6,7 @@ import Modal from "../components/Modal";
 import { FaDatabase, FaPlus, FaSpinner } from "react-icons/fa";
 import { BiLogoPostgresql } from "react-icons/bi";
 import { GrMysql } from "react-icons/gr";
+import { SiNeo4J } from "react-icons/si";
 import { useAuth } from "../context/Auth";
 import { createQuerySession } from "../redux/slices/querySession";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -23,8 +24,21 @@ function Dashboard() {
     dispatch(getDatabases());
   }, [dispatch]);
 
-  const handleClick = (id) => {
-    setSelectedDatabase((prev) => (prev === id ? null : id));
+  const handleClick = async (database) => {
+    try {
+      // Create a new session for the selected database
+      const sessionData = {
+        user: user._id,
+        database: database._id,
+        title: `${database.database} - ${new Date().toLocaleDateString()}`,
+        description: `New ${database.dbType.toUpperCase()} session`,
+      };
+      
+      const response = await dispatch(createQuerySession(sessionData)).unwrap();
+      navigate(`/chat/${response._id}`);
+    } catch (error) {
+      console.error("Failed to create session:", error);
+    }
   };
 
   const handleVoiceDB = async (id) => {
@@ -109,7 +123,7 @@ function Dashboard() {
             {databases.map((db, index) => (
               <div
                 key={db._id}
-                onClick={() => handleClick(db._id)}
+                onClick={() => handleClick(db)}
                 className={`card card-hover group cursor-pointer px-8 py-10 
                   flex flex-col items-center text-center animate-scale-in
                   ${
@@ -121,7 +135,9 @@ function Dashboard() {
               >
                 {/* Icon - large */}
                 <div className="text-7xl text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {db.dbType === "mysql" ? <GrMysql /> : <BiLogoPostgresql />}
+                  {db.dbType === "mysql" ? <GrMysql /> : 
+                   db.dbType === "postgresql" ? <BiLogoPostgresql /> :
+                   db.dbType === "neo4j" ? <SiNeo4J /> : <BiLogoPostgresql />}
                 </div>
 
                 {/* DB Name */}

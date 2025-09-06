@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, UploadFile, Form, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from typing import Optional
 from utils.db import configure_db, get_database_schema
 from utils.chat import chat_db
 from groq import Groq
@@ -46,6 +47,7 @@ class DatabaseConfig(BaseModel):
     user: str
     password: str
     dbname: str
+    uri: Optional[str] = None  # For Neo4j connections
     
 class QueryRequest(BaseModel):
     query: str
@@ -86,27 +88,44 @@ def read_root():
 
 @api.post("/chat")
 async def chat_with_db(request_data: dict):
+    print(f"[DEBUG] Incoming /chat payload: {json.dumps(request_data, indent=2)}")
     
     if "database_config" not in request_data or "query_request" not in request_data:
         raise HTTPException(status_code=400, detail="Request must include database_config and query_request")
     
     db_config_data = request_data["database_config"]
     query_request_data = request_data["query_request"]
+    print(f"[DEBUG] DB config: {db_config_data}")
+    print(f"[DEBUG] Query request: {query_request_data}")
     
     try:
         db_config = DatabaseConfig(**db_config_data)    
         query_request = QueryRequest(**query_request_data)
+        print(f"[DEBUG] Parsed - dbtype: {db_config.dbtype}, query: {query_request.query}")
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid request format: {str(e)}")
     
     try:
+        # Handle Neo4j URI construction
+        if db_config.dbtype == "neo4j":
+            if db_config.uri:
+                connection_host = db_config.uri
+            else:
+                # Fallback: construct URI from host
+                if "://" in db_config.host:
+                    connection_host = db_config.host  # Already a URI
+                else:
+                    connection_host = f"neo4j://{db_config.host}:7687"  # Construct URI
+        else:
+            connection_host = db_config.host
+        
         db, engine = configure_db(
-            db_config.dbtype, db_config.host, db_config.user, 
+            db_config.dbtype, connection_host, db_config.user, 
             db_config.password, db_config.dbname
         )
     
         result = chat_db(
-            db_config.dbtype, db_config.host, db_config.user, 
+            db_config.dbtype, connection_host, db_config.user, 
             db_config.password, db_config.dbname, query_request.query
         )
         
@@ -139,20 +158,62 @@ async def recommend_queries(request_data: dict):
 
     try:
         print(f"[DEBUG] Connecting to DB: type={db_config.dbtype}, host={db_config.host}, user={db_config.user}, db={db_config.dbname}")
-        _, engine = configure_db(db_config.dbtype, db_config.host, db_config.user, db_config.password, db_config.dbname)
-        print("[DEBUG] DB connection successful.")
-        schema = get_database_schema(engine)
-        print(f"[DEBUG] Retrieved schema: {schema}")
-        prompt = f"""
-        Given the following database schema:
-        {schema}
         
-        Generate 10 natural language queries that a business user might ask about this database.
-        Each query should be a single sentence and should be relevant to the schema provided.
-        Avoid complex queries or technical jargon. The query should be simple and understandable.
-        the query should be start with select when coverted to sql query.
-        Return them as a JSON array of strings. Each query should be clear and answerable using SQL.
-        """
+        if db_config.dbtype == "neo4j":
+            # Handle Neo4j graph database
+            # Use uri field if provided, otherwise construct from host
+            if db_config.uri:
+                neo4j_uri = db_config.uri
+            else:
+                # Fallback: construct URI from host
+                if "://" in db_config.host:
+                    neo4j_uri = db_config.host  # Already a URI
+                else:
+                    neo4j_uri = f"neo4j://{db_config.host}:7687"  # Construct URI
+            
+            print(f"[DEBUG] Using Neo4j URI: {neo4j_uri}")
+            driver, _ = configure_db(db_config.dbtype, neo4j_uri, db_config.user, db_config.password, db_config.dbname)
+            schema = get_database_schema(None, "neo4j", driver)
+            
+            prompt = f"""
+            Given the following Neo4j graph database schema:
+            Node Types: {list(schema['nodes'].keys())}
+            Node Properties: {json.dumps(schema['nodes'], indent=2)}
+            Relationship Types: {list(schema['relationships'].keys())}
+            
+            Generate 10 natural language questions that a business user might ask about this graph database.
+            Focus on relationships, patterns, and insights that can be discovered in the graph.
+            Each question should be clear and answerable using Cypher queries.
+            
+            Return ONLY a JSON array of questions (no Cypher queries, no explanations).
+            
+            Example format:
+            ["Who are my top customers by total spending?", "What products are frequently bought together?", "Which product categories have the highest ratings?"]
+            
+            Generate 10 similar questions for this schema and return as a JSON array:
+            """
+            
+            # Close Neo4j driver
+            try:
+                getattr(driver, 'close')()  # type: ignore
+            except:
+                pass
+        else:
+            # Handle SQL databases (existing logic)
+            _, engine = configure_db(db_config.dbtype, db_config.host, db_config.user, db_config.password, db_config.dbname)
+            print("[DEBUG] DB connection successful.")
+            schema = get_database_schema(engine)
+            print(f"[DEBUG] Retrieved schema: {schema}")
+            prompt = f"""
+            Given the following database schema:
+            {schema}
+            
+            Generate 10 natural language queries that a business user might ask about this database.
+            Each query should be a single sentence and should be relevant to the schema provided.
+            Avoid complex queries or technical jargon. The query should be simple and understandable.
+            the query should be start with select when coverted to sql query.
+            Return them as a JSON array of strings. Each query should be clear and answerable using SQL.
+            """
         print(f"[DEBUG] LLM prompt: {prompt}")
         response = client.chat.completions.create(
             messages=[
@@ -165,18 +226,40 @@ async def recommend_queries(request_data: dict):
         )
         llm_response = response.choices[0].message.content
         print(f"[DEBUG] LLM response: {llm_response}")
-        import json
+        
         recommended_queries = []
         if llm_response:
             try:
+                # First try to parse as direct JSON
                 recommended_queries = json.loads(llm_response)
             except json.JSONDecodeError:
-                import re
-                json_match = re.search(r'\[.*\]', llm_response, re.DOTALL) if llm_response else None
-                if json_match:
-                    recommended_queries = json.loads(json_match.group(0))
-                else:
-                    recommended_queries = [q.strip().strip('"').strip("'") for q in llm_response.split('\n') if q.strip()]
+                try:
+                    # Try to find JSON array in the response
+                    json_match = re.search(r'\[.*?\]', llm_response, re.DOTALL)
+                    if json_match:
+                        recommended_queries = json.loads(json_match.group(0))
+                    else:
+                        # Fallback: extract questions manually
+                        lines = llm_response.split('\n')
+                        questions = []
+                        for line in lines:
+                            line = line.strip()
+                            # Look for numbered questions or questions in quotes
+                            if '"' in line and not line.startswith('-'):
+                                # Extract text between quotes
+                                quote_match = re.search(r'"([^"]+)"', line)
+                                if quote_match:
+                                    questions.append(quote_match.group(1))
+                            elif line.startswith(('1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.')):
+                                # Extract question after number
+                                question = re.sub(r'^\d+\.\s*', '', line)
+                                question = question.strip('"').strip("'").strip()
+                                if question and not question.startswith('Cypher'):
+                                    questions.append(question)
+                        recommended_queries = questions
+                except:
+                    # Final fallback
+                    recommended_queries = [q.strip().strip('"').strip("'") for q in llm_response.split('\n') if q.strip() and not q.strip().startswith('-')]
         print(f"[DEBUG] Recommended queries: {recommended_queries}")
         return {
             "recommended_queries": recommended_queries

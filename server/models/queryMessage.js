@@ -11,9 +11,13 @@ const queryMessageSchema = new mongoose.Schema(
     requestQuery: { type: String, required: true },
     sqlQuery: { type: String },
     sqlResponse: { type: mongoose.Schema.Types.Mixed },
+    cypherQuery: { type: String }, // For Neo4j queries
+    graphResult: { type: mongoose.Schema.Types.Mixed }, // For Neo4j results
     summary: { type: String },
     thoughtProcess: { type: String },
     executionTime: { type: Number },
+    title: { type: String }, // For response titles
+    databaseType: { type: String }, // "sql" or "neo4j"
   },
   {
     timestamps: true,

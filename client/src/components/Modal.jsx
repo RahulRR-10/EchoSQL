@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createDatabase } from "../redux/slices/database";
 import { BiLogoPostgresql } from "react-icons/bi";
 import { GrMysql } from "react-icons/gr";
+import { SiNeo4J } from "react-icons/si";
 import { FaSpinner } from "react-icons/fa";
 
 function Modal({ isOpen, onClose }) {
@@ -15,6 +16,7 @@ function Modal({ isOpen, onClose }) {
     password: "",
     database: "",
     dbType: "mysql",
+    uri: "",
   });
 
   const handleInputChange = (e) => {
@@ -34,6 +36,7 @@ function Modal({ isOpen, onClose }) {
         password: "",
         database: "",
         dbType: "mysql",
+        uri: "",
       });
     }
   };
@@ -113,7 +116,7 @@ function Modal({ isOpen, onClose }) {
           {/* Database Type Selector */}
           <div className="space-y-2">
             <p className="text-gray-400 text-sm">Database Type:</p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {/* MySQL Option */}
               <label className="flex items-center space-x-2 p-3 rounded-lg border border-gray-700 cursor-pointer hover:border-gray-600 transition-colors">
                 <input
@@ -169,9 +172,59 @@ function Modal({ isOpen, onClose }) {
                   PostgreSQL
                 </span>
               </label>
+
+              {/* Neo4j Option */}
+              <label className="flex items-center space-x-2 p-3 rounded-lg border border-gray-700 cursor-pointer hover:border-gray-600 transition-colors">
+                <input
+                  type="radio"
+                  name="dbType"
+                  value="neo4j"
+                  checked={formData.dbType === "neo4j"}
+                  onChange={handleInputChange}
+                  className="hidden"
+                />
+                <SiNeo4J
+                  className={`text-xl ${
+                    formData.dbType === "neo4j"
+                      ? "text-cyan-400"
+                      : "text-gray-400"
+                  }`}
+                />
+                <span
+                  className={
+                    formData.dbType === "neo4j"
+                      ? "text-cyan-400"
+                      : "text-gray-400"
+                  }
+                >
+                  Neo4j
+                </span>
+              </label>
             </div>
           </div>
         </div>
+
+        {/* Neo4j Connection URI */}
+        {formData.dbType === "neo4j" && (
+          <div>
+            <label
+              htmlFor="uri"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Neo4j URI
+            </label>
+            <input
+              id="uri"
+              type="text"
+              name="uri"
+              value={formData.uri || ""}
+              onChange={handleInputChange}
+              placeholder="neo4j://localhost:7687"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+              required
+            />
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="mt-6">

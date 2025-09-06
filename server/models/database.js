@@ -7,7 +7,12 @@ const databaseSchema = new mongoose.Schema(
     username: { type: String, required: true }, // DB user
     password: { type: String, required: true }, // Consider encrypting
     database: { type: String, required: true },
-    dbType: { type: String, enum: ["mysql", "postgresql"], required: true },
+    dbType: {
+      type: String,
+      enum: ["mysql", "postgresql", "neo4j"],
+      required: true,
+    },
+    uri: { type: String, required: false }, // For Neo4j connections
   },
   {
     timestamps: true,

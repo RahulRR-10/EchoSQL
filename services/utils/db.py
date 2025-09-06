@@ -2,6 +2,7 @@ import re
 from fastapi import HTTPException
 from sqlalchemy import create_engine, inspect
 from langchain_community.utilities import SQLDatabase
+from neo4j import GraphDatabase
 
 
 def configure_db(db_name, host, user, password, database):
@@ -20,19 +21,91 @@ def configure_db(db_name, host, user, password, database):
             engine = create_engine(conn_string, connect_args={"options": "-c default_transaction_read_only=on"})
             return SQLDatabase(engine), engine
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Database connection error: {str(e)}")  
-        
+            raise HTTPException(status_code=500, detail=f"Database connection error: {str(e)}")
+    elif db_name == "neo4j":
+        try:
+            # For Neo4j, host is the full URI (e.g., neo4j://127.0.0.1:7687)
+            driver = GraphDatabase.driver(host, auth=(user, password))
+            # Test the connection
+            with driver.session() as session:
+                session.run("RETURN 1")
+            return driver, None  # Return driver and None for engine (not applicable to Neo4j)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Neo4j connection error: {str(e)}")
     else:
-        raise HTTPException(status_code=400, detail=f"Unsupported database type: {db_name}. Choose 'mysql' or 'postgresql'.")
+        raise HTTPException(status_code=400, detail=f"Unsupported database type: {db_name}. Choose 'mysql', 'postgresql', or 'neo4j'.")
     
-def get_database_schema(engine):
-    inspector = inspect(engine)
-    schema = {}
+def get_database_schema(engine, db_type="sql", driver=None):
+    if db_type == "neo4j" and driver:
+        return get_neo4j_schema(driver)
+    else:
+        # Original SQL schema logic
+        inspector = inspect(engine)
+        schema = {}
+        tables = inspector.get_table_names()
+        for table in tables:
+            columns = inspector.get_columns(table)
+            schema[table] = [col['name'] for col in columns]
+        return schema
 
-    tables = inspector.get_table_names()
-    for table in tables:
-        columns = inspector.get_columns(table)
-        schema[table] = [col['name'] for col in columns]
+def get_neo4j_schema(driver):
+    """Get Neo4j database schema including nodes and relationships"""
+    schema = {
+        "nodes": {},
+        "relationships": {},
+        "sample_queries": []
+    }
+    
+    try:
+        with driver.session() as session:
+            # Get node labels and their properties
+            result = session.run("""
+                CALL db.labels() YIELD label
+                RETURN label
+            """)
+            
+            for record in result:
+                label = record["label"]
+                
+                # Get properties for this label
+                props_result = session.run(f"""
+                    MATCH (n:{label})
+                    RETURN keys(n) as properties
+                    LIMIT 1
+                """)
+                
+                properties = []
+                for prop_record in props_result:
+                    if prop_record["properties"]:
+                        properties = prop_record["properties"]
+                        break
+                
+                schema["nodes"][label] = properties
+            
+            # Get relationship types
+            rel_result = session.run("""
+                CALL db.relationshipTypes() YIELD relationshipType
+                RETURN relationshipType
+            """)
+            
+            for record in rel_result:
+                rel_type = record["relationshipType"]
+                schema["relationships"][rel_type] = []
+            
+            # Add sample queries based on our store data
+            schema["sample_queries"] = [
+                "Find all customers from New York",
+                "Show products with rating above 4.5",
+                "What are the most popular product categories?",
+                "Find customers who bought electronics",
+                "Show orders placed in the last 30 days",
+                "Which products have the most reviews?",
+                "Find customers with highest total spending",
+                "Show product recommendations for a customer"
+            ]
+            
+    except Exception as e:
+        print(f"Error getting Neo4j schema: {e}")
     
     return schema
     

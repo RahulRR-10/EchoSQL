@@ -36,8 +36,11 @@ const ChatMessage = ({ message }) => {
     }
   };
 
-  // Render SQLCard if it's a response message
-  if (message.sqlQuery && message.sqlResponse) {
+  // Render SQLCard if it's a response message (SQL or Neo4j)
+  const hasQueryResponse = (message.sqlQuery && message.sqlResponse) || 
+                          (message.cypherQuery && message.graphResult);
+  
+  if (hasQueryResponse) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -47,9 +50,11 @@ const ChatMessage = ({ message }) => {
       >
         <SQLCard
           query={message.requestQuery}
-          sqlQuery={message.sqlQuery}
-          sqlResponse={message.sqlResponse}
+          sqlQuery={message.sqlQuery || message.cypherQuery}
+          sqlResponse={message.sqlResponse || message.graphResult}
           summary={message.summary}
+          title={message.title}
+          databaseType={message.databaseType || (message.cypherQuery ? "neo4j" : "sql")}
           thoughtProcess={message.thoughtProcess}
           executionTime={message.executionTime}
           timestamp={message.createdAt}

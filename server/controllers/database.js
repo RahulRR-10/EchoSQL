@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 
 exports.createDatabase = async (req, res) => {
   try {
-    const { host, username, password, database, dbType } = req.body;
+    const { host, username, password, database, dbType, uri } = req.body;
 
     // Validate DB type
-    if (!["mysql", "postgresql"].includes(dbType)) {
+    if (!["mysql", "postgresql", "neo4j"].includes(dbType)) {
       return res.status(400).json({ message: "Invalid database type" });
     }
 
@@ -18,6 +18,7 @@ exports.createDatabase = async (req, res) => {
       password, // Consider encrypting the password before saving it
       database,
       dbType,
+      uri, // Add uri field for Neo4j connections
     });
 
     res.status(201).json({
@@ -75,7 +76,7 @@ exports.updateDatabase = async (req, res) => {
     const { host, userName, password, database, dbType } = req.body;
 
     // Validate DB type
-    if (dbType && !["mysql", "postgresql"].includes(dbType)) {
+    if (dbType && !["mysql", "postgresql", "neo4j"].includes(dbType)) {
       return res.status(400).json({ message: "Invalid database type" });
     }
 

@@ -11,8 +11,22 @@ const SQLCard = ({
   thoughtProcess,
   executionTime,
   timestamp,
+  title,
+  databaseType,
 }) => {
   const [showThoughtProcess, setShowThoughtProcess] = useState(false);
+
+  // Determine if this is a Neo4j/Cypher query
+  const isNeo4j = databaseType === "neo4j" || (sqlQuery && (
+    sqlQuery.toLowerCase().includes('match') || 
+    sqlQuery.toLowerCase().includes('return') ||
+    sqlQuery.toLowerCase().includes('create') ||
+    sqlQuery.toLowerCase().includes('merge')
+  ));
+
+  // Labels based on database type
+  const queryLabel = isNeo4j ? "Cypher Query" : "SQL Query";
+  const responseLabel = isNeo4j ? "Graph Results" : "Query Results";
 
   // Check if sqlResponse is valid and is an array
   const isValidResponse =
@@ -33,8 +47,18 @@ const SQLCard = ({
         <p className="text-white">{query}</p>
       </div>
 
-      {/* SQL Query */}
+      {/* Title (if provided) */}
+      {title && (
+        <div className="text-cyan-400 text-lg font-semibold">
+          {title}
+        </div>
+      )}
+
+      {/* SQL/Cypher Query */}
       <div className="bg-[#0a1a1a] rounded-lg p-3">
+        <p className="text-gray-400 text-xs mb-2 font-medium">
+          {queryLabel}:
+        </p>
         <pre className="text-cyan-400 text-xs md:text-sm overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
           <code className="whitespace-pre-wrap break-words">{sqlQuery}</code>
         </pre>
@@ -52,9 +76,12 @@ const SQLCard = ({
         </div>
       )}
 
-      {/* SQL Response - Success Case */}
+      {/* Query Response - Success Case */}
       {isValidResponse && (
         <div className="overflow-x-auto">
+          <p className="text-gray-400 text-xs mb-2 font-medium">
+            {responseLabel}:
+          </p>
           <table className="min-w-full divide-y divide-gray-700 text-sm text-left">
             <thead className="bg-[#2a3a3a] text-gray-300 uppercase text-xs">
               <tr>
@@ -71,7 +98,7 @@ const SQLCard = ({
                 <tr key={i} className="hover:bg-[#2a3a3a]">
                   {Object.values(row).map((val, j) => (
                     <td key={j} className="px-3 py-2 text-gray-300">
-                      {val}
+                      {typeof val === 'object' && val !== null ? JSON.stringify(val) : val}
                     </td>
                   ))}
                 </tr>
