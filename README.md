@@ -1,165 +1,171 @@
 <div align="center">
 
-# 🚀 **EchoSQL** - AI-Powered Database Intelligence Platform
+# � **EchoSQL** - AI-Powered Database Intelligence Platform
 
-<img src="client/public/hero.png" alt="EchoSQL Logo" width="200px">
+<img src="client/public/hero.png" alt="EchoSQL Logo" width="300px">
 
-### _Transform Natural Language into Database Insights_
+### _Transform Natural Language into Intelligent Database Insights_
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Python](https://img.shields.io/badge/Python-3.9-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-latest-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![LangChain](https://img.shields.io/badge/LangChain-🦜⛓️-FF6B35?style=for-the-badge)](https://langchain.com/)
-[![Groq](https://img.shields.io/badge/Groq-LLM-FF6B35?style=for-the-badge)](https://groq.com/)
+[![Neo4j](https://img.shields.io/badge/Neo4j-5.0-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com/)
 
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Version](https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=for-the-badge)
+
+[🚀 **Live Demo**](https://echosql.vercel.app) | [📖 **Documentation**](https://docs.echosql.com) | [💬 **Discord Community**](https://discord.gg/echosql)
 
 </div>
 
----
+## 🌟 **What is EchoSQL?**
 
-## 🌟 **Overview**
+EchoSQL is a revolutionary conversational database platform that democratizes data access through natural language. Built with cutting-edge AI technology, it enables anyone to explore, analyze, and visualize complex database information through simple conversations - no SQL knowledge required.
 
-**EchoSQL** is a next-generation conversational database platform that bridges the gap between natural language and complex database operations. Built with cutting-edge AI technology, EchoSQL empowers users to explore, analyze, and visualize their data through simple conversations.
+> **🎯 Mission**: _Bridge the gap between complex data and human understanding_
 
-### 🎯 **What Makes EchoSQL Special?**
-
-🧠 **Schema-Aware Intelligence** - Advanced LLM integration that understands your database structure  
-🎙️ **Voice & Text Interactions** - Seamless multi-modal query input with real-time processing  
-📊 **Smart Visualizations** - Automatic chart generation based on query results  
-📋 **PDF Report Generation** - Professional reports with one-click export  
-🔒 **Enterprise Security** - Robust authentication and encrypted credential storage  
-💡 **Context-Aware Conversations** - Maintains conversation history for intelligent follow-ups
-
----
-
-## ✨ **Core Features**
+### ✨ **Why Choose EchoSQL?**
 
 <table>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>🎙️ **Multi-Modal Input**</h3>
-      <ul>
-        <li>🗣️ Real-time speech-to-text with noise cancellation</li>
-        <li>⌨️ Smart text input with auto-completion</li>
-        <li>🌐 Multi-language support (English, Spanish, French, etc.)</li>
-        <li>🎯 Context-aware query suggestions</li>
-      </ul>
-    </td>
-    <td width="50%" valign="top">
-      <h3>🤖 **Advanced AI Engine**</h3>
-      <ul>
-        <li>🧠 Schema-aware LLM (Groq Llama-3.3-70B)</li>
-        <li>🔗 LangChain SQL agents for robust query generation</li>
-        <li>🛡️ Query validation and error handling</li>
-        <li>📊 Intelligent result summarization</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <h3>📊 **Smart Visualizations**</h3>
-      <ul>
-        <li>📈 Auto-generated charts based on data types</li>
-        <li>🎨 Interactive data exploration tools</li>
-        <li>📋 Professional PDF report generation</li>
-        <li>🔍 Drill-down analytics capabilities</li>
-      </ul>
-    </td>
-    <td valign="top">
-      <h3>💬 **Conversational Interface**</h3>
-      <ul>
-        <li>🎯 Context-aware chat sessions</li>
-        <li>⚡ Real-time response streaming</li>
-        <li>📚 Session history and bookmarking</li>
-        <li>🔄 Follow-up question suggestions</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <h3>🔒 **Enterprise Security**</h3>
-      <ul>
-        <li>🛡️ JWT-based authentication</li>
-        <li>🔐 Encrypted database credential storage</li>
-        <li>👤 Role-based access control</li>
-        <li>📧 Email verification and password recovery</li>
-      </ul>
-    </td>
-    <td valign="top">
-      <h3>🎛️ **Database Management**</h3>
-      <ul>
-        <li>🗄️ Multi-database connection support</li>
-        <li>🔍 Real-time schema introspection</li>
-        <li>⚙️ Connection health monitoring</li>
-        <li>📈 Query performance analytics</li>
-      </ul>
-    </td>
-  </tr>
+<tr>
+<td width="50%">
+
+**🚀 For Business Users**
+
+- Ask questions in plain English
+- Get instant insights without technical knowledge
+- Generate professional reports automatically
+- Make data-driven decisions faster
+
+</td>
+<td width="50%">
+
+**⚡ For Technical Teams**
+
+- Accelerate data exploration workflows
+- Reduce time spent writing complex queries
+- Enable self-service analytics for stakeholders
+- Focus on strategy, not syntax
+
+</td>
+</tr>
 </table>
 
+### 🏆 **Key Differentiators**
+
+| Feature                 | Traditional BI Tools | EchoSQL                |
+| ----------------------- | -------------------- | ---------------------- |
+| **Learning Curve**      | Weeks/Months         | Minutes                |
+| **Query Language**      | SQL Required         | Natural Language       |
+| **Data Exploration**    | Manual & Complex     | AI-Powered & Intuitive |
+| **Insights Generation** | Manual Analysis      | Automatic Summaries    |
+| **Accessibility**       | Technical Users Only | Everyone               |
+
 ---
 
-## 🏗️ **System Architecture**
+## 🚀 **Core Features**
 
 <div align="center">
-  <img src="client/public/database.png" alt="Architecture Diagram" width="150px">
+<img src="client/public/voice.png" alt="EchoSQL Features" width="400px">
 </div>
 
-### 🛠️ **Technology Stack**
+### 🎯 **Smart Query Engine**
+
+- **🗣️ Natural Language Processing**: Ask questions like "Show me top customers this month"
+- **🎙️ Voice Input**: Speak your queries with real-time speech-to-text
+- **🧠 Context Awareness**: Maintains conversation history for follow-up questions
+- **� Auto-Suggestions**: Intelligent query recommendations based on your data
+
+### 📊 **Intelligent Visualizations**
+
+- **📈 Auto-Generated Charts**: Bar, line, pie, heatmap charts based on data patterns
+- **🎨 Interactive Dashboards**: Drill-down capabilities and real-time filtering
+- **📄 PDF Reports**: Professional reports with insights and visualizations
+- **� Responsive Design**: Perfect viewing on desktop, tablet, and mobile
+
+### 🗄️ **Multi-Database Support**
+
+- **🐬 MySQL**: Complete support for MySQL 8.0+ databases
+- **� PostgreSQL**: Advanced features for PostgreSQL 13+
+- **�️ Neo4j**: Graph database queries for relationship analysis
+- **⚡ High Performance**: Optimized connections with pooling and caching
+
+### 🔒 **Enterprise Security**
+
+- **🛡️ JWT Authentication**: Secure token-based user authentication
+- **🔐 Encrypted Storage**: Database credentials encrypted at rest
+- **📧 Email Verification**: Secure account registration and recovery
+- **🔑 Role-Based Access**: Fine-grained permissions and access control
+
+### 🤖 **AI-Powered Intelligence**
+
+- **🦾 Schema Understanding**: AI analyzes your database structure
+- **✅ Query Validation**: Prevents harmful or invalid queries
+- **� Natural Summaries**: AI-generated insights from query results
+- **🎯 Smart Recommendations**: Suggests relevant follow-up questions
+
+---
+
+## 🏗️ **Technology Stack**
+
+<div align="center">
+<img src="client/public/database.png" alt="Architecture Diagram" width="200px">
+</div>
+
+### 🎯 **Modern, Scalable Architecture**
 
 <table>
-  <tr>
-    <th width="25%">🎨 **Frontend**</th>
-    <th width="25%">⚙️ **Backend**</th>
-    <th width="25%">🤖 **AI Service**</th>
-    <th width="25%">🗄️ **Database**</th>
-  </tr>
-  <tr>
-    <td valign="top">
-      <ul>
-        <li><strong>React 19</strong> - Modern UI framework</li>
-        <li><strong>Vite</strong> - Lightning-fast build tool</li>
-        <li><strong>Tailwind CSS</strong> - Utility-first styling</li>
-        <li><strong>Redux Toolkit</strong> - State management</li>
-        <li><strong>Framer Motion</strong> - Smooth animations</li>
-        <li><strong>React Router v6</strong> - Navigation</li>
-      </ul>
-    </td>
-    <td valign="top">
-      <ul>
-        <li><strong>Node.js 18+</strong> - Runtime environment</li>
-        <li><strong>Express.js</strong> - Web framework</li>
-        <li><strong>MongoDB</strong> - Document database</li>
-        <li><strong>Mongoose</strong> - ODM for MongoDB</li>
-        <li><strong>JWT</strong> - Authentication</li>
-        <li><strong>Puppeteer</strong> - PDF generation</li>
-      </ul>
-    </td>
-    <td valign="top">
-      <ul>
-        <li><strong>Python 3.9+</strong> - Core language</li>
-        <li><strong>FastAPI</strong> - High-performance API</li>
-        <li><strong>LangChain</strong> - LLM orchestration</li>
-        <li><strong>Groq</strong> - Ultra-fast LLM inference</li>
-        <li><strong>SQLAlchemy</strong> - Database toolkit</li>
-        <li><strong>Pydantic</strong> - Data validation</li>
-      </ul>
-    </td>
-    <td valign="top">
-      <ul>
-        <li><strong>MySQL 8.0+</strong> - Relational database support</li>
-        <li><strong>PostgreSQL 13+</strong> - Advanced SQL features</li>
-        <li><strong>Neo4j 5.0+</strong> - Graph database & supply chain analytics</li>
-        <li><strong>MongoDB</strong> - User & session data</li>
-        <li><strong>Redis</strong> - Caching layer</li>
-        <li><strong>Docker</strong> - Containerization</li>
-      </ul>
-    </td>
-  </tr>
+<tr>
+<th width="25%">🎨 **Frontend**</th>
+<th width="25%">⚙️ **Backend**</th>
+<th width="25%">🤖 **AI Engine**</th>
+<th width="25%">🗄️ **Databases**</th>
+</tr>
+<tr>
+<td valign="top">
+
+**React 19** - Modern UI
+**Vite** - Fast builds  
+**Tailwind CSS** - Styling
+**Redux Toolkit** - State
+**Framer Motion** - Animations
+**React Router v6** - Navigation
+
+</td>
+<td valign="top">
+
+**Node.js 18+** - Runtime
+**Express.js** - Web framework
+**MongoDB** - User data
+**JWT** - Authentication
+**Puppeteer** - PDF generation
+**Socket.IO** - Real-time
+
+</td>
+<td valign="top">
+
+**Python 3.9+** - Core language
+**FastAPI** - High-performance API
+**LangChain** - LLM orchestration
+**Groq** - Ultra-fast inference
+**SQLAlchemy** - Database toolkit
+**Pydantic** - Data validation
+
+</td>
+<td valign="top">
+
+**MySQL 8.0+** - Relational data
+**PostgreSQL 13+** - Advanced SQL
+**Neo4j 5.0+** - Graph analytics
+**MongoDB** - Document storage
+**Redis** - Caching layer
+**Docker** - Containerization
+
+</td>
+</tr>
 </table>
 
 ---
@@ -377,541 +383,270 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
 
 ---
 
-## 🚀 **Quick Start Guide**
+## 🚀 **Quick Start**
 
 ### 📋 **Prerequisites**
 
-<table>
-  <tr>
-    <td width="25%"><strong>🟢 Node.js</strong></td>
-    <td width="75%">Version 18+ with npm package manager</td>
-  </tr>
-  <tr>
-    <td><strong>🐍 Python</strong></td>
-    <td>Version 3.9+ for AI service with pip</td>
-  </tr>
-  <tr>
-    <td><strong>🗄️ MongoDB</strong></td>
-    <td>Running instance (local or cloud) for user data</td>
-  </tr>
-  <tr>
-    <td><strong>🔗 SQL Database</strong></td>
-    <td>MySQL 8.0+, PostgreSQL 13+, or Neo4j 5.0+ for data analysis</td>
-  </tr>
-  <tr>
-    <td><strong>🤖 Groq API</strong></td>
-    <td>API key for LLM access (<a href="https://groq.com">Get Free Key</a>)</td>
-  </tr>
-</table>
-
-### ⚡ **Installation & Setup**
-
-<details>
-<summary><b>🐳 Option 1: Docker (Recommended)</b></summary>
+Before you begin, ensure you have the following installed:
 
 ```bash
-# Clone the repository
-git clone https://github.com/abhay271/aura.git
-cd aura
+Node.js 18+     # JavaScript runtime
+Python 3.9+     # For AI services
+MongoDB         # User data storage
+MySQL/PostgreSQL # Your data to analyze
+```
 
-# Create environment files from templates
+### ⚡ **Installation**
+
+<details>
+<summary><b>🐳 Docker Setup (Recommended)</b></summary>
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/RahulRR-10/EchoSQL-Project.git
+cd EchoSQL-Project
+
+# 2. Configure environment
 cp .env.example .env
-cp server/.env.example server/.env
-cp services/.env.example services/.env
+# Edit .env with your API keys and database URLs
 
-# Configure your environment variables (see Configuration section below)
-# Edit .env files with your database URLs, API keys, etc.
-
-# Start all services with Docker
+# 3. Start with Docker
 docker-compose up -d
 
-# Access Aura at http://localhost:5173 🚀
+# 4. Access EchoSQL
+open http://localhost:5173
 ```
 
 </details>
 
 <details>
-<summary><b>⚙️ Option 2: Manual Installation</b></summary>
+<summary><b>⚙️ Manual Installation</b></summary>
 
 ```bash
-# 1. Clone and setup
-git clone https://github.com/abhay271/aura.git
-cd aura
+# 1. Clone and navigate
+git clone https://github.com/RahulRR-10/EchoSQL-Project.git
+cd EchoSQL-Project
 
-# 2. Install backend dependencies
-cd server
-npm install
+# 2. Install dependencies
+cd server && npm install
+cd ../client && npm install
+cd ../services && pip install -r requirements.txt
 
-# 3. Install frontend dependencies
-cd ../client
-npm install
+# 3. Set up environment files
+cp server/.env.example server/.env
+cp client/.env.example client/.env
+cp services/.env.example services/.env
 
-# 4. Install Python AI service dependencies
-cd ../services
-pip install -r requirements.txt
+# 4. Start services (4 terminals)
+cd server && npm run dev      # Backend API
+cd client && npm run dev      # Frontend
+cd services && python api.py # AI Service
+docker run -p 27017:27017 mongo # MongoDB
 
-# 5. Setup environment variables
-cp .env.example .env
-cp ../server/.env.example ../server/.env
-cp .env.example ../services/.env
-
-# 6. Start services in separate terminals
-
-# Terminal 1: MongoDB (if using Docker)
-docker run -d -p 27017:27017 --name mongodb mongo:latest
-
-# Terminal 2: Backend API
-cd server && npm run dev
-
-# Terminal 3: Frontend
-cd client && npm run dev
-
-# Terminal 4: AI Service
-cd services && python api.py
-
-# Access Aura at http://localhost:5173 🚀
+# 5. Open browser
+open http://localhost:5173
 ```
 
 </details>
 
 ### 🔧 **Environment Configuration**
 
-Create and configure the following environment files:
+Create these essential environment files:
 
-<details>
-<summary><b>📄 server/.env</b></summary>
+**`server/.env`**
 
 ```env
-# Server Configuration
-PORT=5000
-NODE_ENV=development
-
-# Database
 MONGODB_URI=mongodb://localhost:27017/echosql
-CORS_ORIGIN=http://localhost:5173
-
-# JWT Security
-JWT_SECRET=your-super-secret-jwt-key-here
-JWT_EXPIRES_IN=7d
-
-# Email Service (for authentication)
-EMAIL_SERVICE=gmail
+JWT_SECRET=your-super-secret-key
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
-
-# Services
-PYTHON_API_URL=http://localhost:1111
 ```
 
-</details>
-
-<details>
-<summary><b>📄 services/.env</b></summary>
+**`services/.env`**
 
 ```env
-# AI Service Configuration
-PORT=1111
-ENVIRONMENT=development
-
-# Groq API (Get free key at https://groq.com)
-GROQ_API_KEY=your-groq-api-key-here
-
-# Database Connections (for SQL analysis)
-# These are examples - users will add their own via the dashboard
+GROQ_API_KEY=your-groq-api-key  # Get free at https://groq.com
 MYSQL_HOST=localhost
-MYSQL_PORT=3306
 MYSQL_USER=root
-MYSQL_PASSWORD=your-mysql-password
-MYSQL_DATABASE=your-database-name
-
-# PostgreSQL (optional)
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=your-postgres-password
-POSTGRES_DATABASE=your-database-name
+MYSQL_PASSWORD=your-password
 ```
-
-</details>
-
-<details>
-<summary><b>📄 client/.env</b></summary>
-
-```env
-# Frontend Configuration
-VITE_API_BASE_URL=http://localhost:5000/api/v1
-VITE_PYTHON_API_URL=http://localhost:1111
-VITE_APP_NAME=EchoSQL
-VITE_APP_VERSION=2.0.0
-```
-
-</details>
 
 ### 🎯 **First Steps**
 
-1. **🔐 Create Account**: Register with your email at `http://localhost:5173/signup`
-2. **✅ Verify Email**: Check your inbox and verify your account
-3. **🗄️ Add Database**: Go to Dashboard → Add your first MySQL/PostgreSQL connection
-4. **💬 Start Chatting**: Select a database and ask questions like:
-   - _"Show me all customers from last month"_
-   - _"What are the top selling products?"_
-   - _"Find delayed flights this week"_
-
-### 🎤 **Voice Setup (Optional)**
-
-To enable voice input:
-
-1. **🔊 Browser Permissions**: Allow microphone access when prompted
-2. **🌐 Language Selection**: Choose your preferred language in settings
-3. **🎙️ Voice Commands**: Click the microphone button and speak your query
+1. **Register Account** → Visit `http://localhost:5173/signup`
+2. **Verify Email** → Check inbox and confirm
+3. **Add Database** → Dashboard → Connect your MySQL/PostgreSQL
+4. **Start Chatting** → Ask: _"Show me all users"_ or _"What's the total sales?"_
 
 ---
 
-## 🌟 **Key Features Showcase**
+## 💡 **Use Cases & Examples**
 
-### 💬 **Natural Language to SQL**
+### 🎯 **Business Intelligence Made Simple**
 
-```
-🗣️ User: "Show me customers who spent more than $1000 last month"
+<table>
+<tr>
+<td width="50%">
 
-🤖 EchoSQL: Generates and executes:
-SELECT c.name, SUM(o.total) as total_spent
-FROM customers c
-JOIN orders o ON c.id = o.customer_id
-WHERE o.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
-GROUP BY c.id
-HAVING total_spent > 1000
-ORDER BY total_spent DESC;
-
-📊 Result: Interactive table + chart + AI summary
-```
-
-### 📊 **Smart Visualizations**
-
-- **📈 Line Charts**: Time-series data, trends
-- **📊 Bar Charts**: Categorical comparisons
-- **🥧 Pie Charts**: Proportional data
-- **🌡️ Heatmaps**: Correlation matrices
-- **📋 Tables**: Detailed data views
-
-### 📄 **PDF Reports**
-
-Generate professional reports with:
-
-- Executive summary
-- Query details and results
-- Visualizations
-- Key insights and recommendations
-
----
-
-## 📸 **Screenshots & Demo**
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="client/public/audio.png" alt="Voice Interface" width="300px">
-        <br><em>🎙️ Voice Query Interface</em>
-      </td>
-      <td align="center">
-        <img src="client/public/translate.png" alt="Data Visualization" width="300px">
-        <br><em>📊 Smart Data Visualization</em>
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="client/public/profile.png" alt="Dashboard" width="300px">
-        <br><em>📱 User Dashboard</em>
-      </td>
-      <td align="center">
-        <img src="client/public/database.png" alt="Schema View" width="300px">
-        <br><em>🗄️ Database Management</em>
-      </td>
-    </tr>
-  </table>
-</div>
-
----
-
-## 🔧 **Advanced Configuration**
-
-### 🛠️ **Development Setup**
-
-<details>
-<summary><b>🔨 Development Tools & Scripts</b></summary>
-
-```bash
-# Backend development
-cd server
-npm run dev          # Start with nodemon
-npm run start        # Production start
-npm run lint         # ESLint checking
-npm run test         # Run test suite
-
-# Frontend development
-cd client
-npm run dev          # Vite dev server
-npm run build        # Production build
-npm run preview      # Preview build
-npm run lint         # ESLint + Prettier
-
-# AI Service development
-cd services
-python api.py        # Start FastAPI server
-python -m pytest    # Run tests
-python -m black .    # Code formatting
-```
-
-</details>
-
-### 🔐 **Security Configuration**
-
-<details>
-<summary><b>🛡️ Security Best Practices</b></summary>
-
-- **🔑 JWT Tokens**: Configure strong secrets (min 256-bit)
-- **🔒 HTTPS**: Enable SSL in production environments
-- **🛡️ CORS**: Restrict origins to trusted domains
-- **🔐 Database**: Use encrypted connections for SQL databases
-- **📧 Email**: Use app-specific passwords for email services
-- **🤖 API Keys**: Rotate Groq API keys regularly
-
-</details>
-
-### ⚡ **Performance Optimization**
-
-<details>
-<summary><b>🚀 Performance Tuning</b></summary>
-
-```env
-# Database Connection Pooling
-MYSQL_POOL_SIZE=10
-MYSQL_POOL_TIMEOUT=30000
-
-# Redis Caching (optional)
-REDIS_URL=redis://localhost:6379
-CACHE_TTL=3600
-
-# Rate Limiting
-RATE_LIMIT_WINDOW=15
-RATE_LIMIT_MAX_REQUESTS=100
-
-# Response Streaming
-ENABLE_STREAMING=true
-CHUNK_SIZE=8192
-```
-
-</details>
-
----
-
-## 🗄️ **Sample Database Setup**
-
-EchoSQL comes with sample databases to help you get started quickly:
-
-<details>
-<summary><b>🏢 Airline Database</b></summary>
-
-```sql
--- Complete airline management system
--- Includes: flights, customers, bookings, payments, reviews
--- Sample data: 14 flights (5 delayed), 8 customers, 10 bookings
-
--- Run the setup script:
-mysql -u root -p < mysql/init/03-complete-airline-db.sql
-
--- Example queries to try:
--- "Show me all delayed flights"
--- "Which customers have the highest ratings?"
--- "What's the average booking amount by class?"
-```
-
-</details>
-
-<details>
-<summary><b>🏏 Sports Database</b></summary>
-
-```sql
--- Cricket and sports statistics
--- Includes: teams, players, matches, statistics
--- Perfect for sports analytics queries
-
--- Example queries:
--- "Who are the top scorers this season?"
--- "Show team performance statistics"
--- "Find players with highest strike rates"
-```
-
-</details>
-
-<details>
-<summary><b>💼 Sales Database</b></summary>
-
-```sql
--- E-commerce and sales data
--- Includes: products, customers, orders, inventory
--- Great for business intelligence queries
-
--- Example queries:
--- "What are our best selling products?"
--- "Show monthly sales trends"
--- "Find customers with highest lifetime value"
-```
-
-</details>
-
----
-
-## 🎯 **Use Cases & Examples**
-
-### 🏢 **Business Intelligence**
+**📊 Sales Analytics**
 
 ```
-💼 Sales Analysis:
-"Show me top 10 products by revenue last quarter"
-"Which regions have declining sales?"
-"What's our customer acquisition cost by channel?"
-
-📊 Financial Reporting:
-"Calculate monthly recurring revenue growth"
-"Show profit margins by product category"
-"Find customers with overdue payments"
+� "Show top 10 products by revenue"
+� "Which regions had declining sales?"
+� "What's our monthly growth rate?"
+💬 "Find customers who spent over $1000"
 ```
 
-### 📈 **Data Analytics**
+</td>
+<td width="50%">
+
+**🔍 Customer Insights**
 
 ```
-🔍 Customer Insights:
-"Segment customers by purchase behavior"
-"What's the average customer lifetime value?"
-"Find patterns in customer churn"
-
-📊 Operational Metrics:
-"Show daily active users trend"
-"What's our inventory turnover rate?"
-"Calculate employee productivity metrics"
+💬 "Who are our most loyal customers?"
+💬 "Show customer churn rate by month"
+💬 "Which products do millennials buy?"
+� "Find inactive users from last quarter"
 ```
 
-### 🎓 **Educational & Research**
+</td>
+</tr>
+<tr>
+<td>
+
+**📈 Financial Reporting**
 
 ```
-🏫 Academic Analysis:
-"Analyze student performance by subject"
-"Show attendance patterns by department"
-"Find correlation between study hours and grades"
+� "Calculate profit margins by category"
+💬 "Show monthly recurring revenue"
+💬 "Find overdue payments"
+💬 "What's our cash flow trend?"
+```
 
-🔬 Research Queries:
-"Extract survey response patterns"
-"Analyze experimental data distributions"
-"Generate statistical summaries"
+</td>
+<td>
+
+**⚙️ Operations Analytics**
+
+```
+💬 "Show inventory turnover rates"
+💬 "Which suppliers are fastest?"
+💬 "Find delivery delays this week"
+💬 "What's our order fulfillment rate?"
+```
+
+</td>
+</tr>
+</table>
+
+### � **Neo4j Graph Analytics**
+
+**Supply Chain Intelligence**
+
+```cypher
+� "Show the complete supply chain for smartphones"
+💬 "Which suppliers have the highest risk?"
+� "Find bottlenecks in our distribution network"
+� "Map all connections from suppliers to retailers"
+```
+
+### 📚 **Educational & Research**
+
+**Academic Analysis**
+
+```
+💬 "Analyze student performance by subject"
+💬 "Show attendance patterns this semester"
+💬 "Which courses have highest dropout rates?"
+💬 "Find correlation between study hours and grades"
 ```
 
 ---
 
 ## 🤝 **Contributing**
 
-We welcome contributions from the community! Here's how you can help:
+We welcome contributions! Here's how to get involved:
 
-### 🛠️ **Development Workflow**
+### � **Quick Contribution Guide**
 
-1. **🍴 Fork** the repository
-2. **🌿 Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **💻 Code** your changes with proper tests
-4. **✅ Test** thoroughly across different environments
-5. **📝 Commit** with conventional commit messages
-6. **🚀 Push** to your fork: `git push origin feature/amazing-feature`
-7. **📋 Submit** a Pull Request with detailed description
+1. **Fork** the repository
+2. **Create** feature branch: `git checkout -b feature/amazing-feature`
+3. **Make** your changes with tests
+4. **Commit** with clear messages
+5. **Push** and create a Pull Request
 
-### 🎯 **Areas for Contribution**
+### 🎯 **Areas We Need Help**
 
-- 🌐 **Frontend**: React components, UI/UX improvements
-- ⚙️ **Backend**: API endpoints, authentication, optimization
-- 🤖 **AI/ML**: LLM prompt engineering, new model integrations
-- 📊 **Visualizations**: New chart types, interactive features
-- 🗄️ **Database**: New database connector support
-- 📖 **Documentation**: Tutorials, API docs, examples
-- 🧪 **Testing**: Unit tests, integration tests, E2E tests
-
-### 🐛 **Bug Reports**
-
-Found a bug? Please create an issue with:
-
-- Clear description of the problem
-- Steps to reproduce
-- Expected vs actual behavior
-- Environment details (OS, browser, versions)
-- Screenshots or logs if applicable
+- � **UI/UX**: React components, design improvements
+- ⚙️ **Backend**: API optimization, new features
+- 🤖 **AI/ML**: Prompt engineering, model improvements
+- 📊 **Charts**: New visualization types
+- 🗄️ **Database**: Support for more database types
+- 📖 **Docs**: Tutorials, examples, API documentation
 
 ---
 
-## 📞 **Support & Community**
+## � **Support & Community**
 
-### 💬 **Get Help**
+### 🆘 **Need Help?**
 
-- 📧 **Email**: support@echosql.com
-- 💬 **Discord**: [Join our community](https://discord.gg/echosql)
-- 📋 **GitHub Issues**: [Report bugs & feature requests](https://github.com/RahulRR-10/EchoSQL-Project/issues)
-- 📖 **Documentation**: [Full documentation](https://docs.echosql.com)
+- 📧 **Email**: [support@echosql.com](mailto:support@echosql.com)
+- 💬 **Discord**: [Join Community](https://discord.gg/echosql)
+- 📋 **Issues**: [GitHub Issues](https://github.com/RahulRR-10/EchoSQL-Project/issues)
+- 📖 **Docs**: [Full Documentation](https://docs.echosql.com)
 
-### 🆘 **Common Issues**
+### ❓ **Common Issues**
 
 <details>
-<summary><b>❓ Troubleshooting FAQ</b></summary>
+<summary><b>🔧 Troubleshooting</b></summary>
 
-**Q: Groq API not responding**
+**🚫 Database Connection Failed**
 
-- Verify your API key in `services/.env`
-- Check rate limits on your Groq account
-- Ensure internet connectivity
-
-**Q: Database connection failed**
-
-- Verify database credentials
+- Verify credentials in `.env` files
 - Check if database server is running
-- Confirm network accessibility
+- Confirm network connectivity
 
-**Q: Voice input not working**
+**🔑 Groq API Not Working**
 
-- Allow microphone permissions in browser
-- Check browser compatibility (Chrome recommended)
-- Verify audio input device
+- Verify API key in `services/.env`
+- Check account rate limits
+- Ensure internet connection
 
-**Q: PDF generation fails**
+**🎙️ Voice Input Not Working**
 
-- Ensure Puppeteer dependencies are installed
-- Check available disk space
-- Verify write permissions
+- Allow microphone permissions
+- Use Chrome/Edge browsers
+- Check audio device settings
 
 </details>
 
 ---
 
-## 🏆 **Roadmap**
+## � **Roadmap**
 
-### 🔄 **Current Version (2.0.0)**
+### ✅ **Current (v2.0)**
 
-- ✅ Multi-database support (MySQL, PostgreSQL)
-- ✅ Voice & text input with AI processing
-- ✅ PDF report generation
-- ✅ Interactive visualizations
-- ✅ Session management
+- Multi-database support (MySQL, PostgreSQL, Neo4j)
+- Natural language & voice queries
+- Interactive visualizations
+- PDF report generation
+- Enterprise authentication
 
-### 🚀 **Upcoming Features (2.1.0)**
+### � **Next (v2.1)**
 
-- 🔄 Real-time collaborative sessions
 - 📱 Mobile app (React Native)
+- 🔄 Real-time collaboration
 - 🔌 REST API integrations
-- 📊 Advanced analytics dashboard
-- 🤖 Custom AI model training
+- 📊 Custom dashboard builder
+- 🌐 Multi-language support
 
-### 🌟 **Future Vision (3.0.0)**
+### 🌟 **Future (v3.0)**
 
-- 🌐 Multi-cloud database support
+- 🤖 Custom model training
 - 🔗 ETL pipeline integration
 - 📈 Predictive analytics
-- 🎯 Custom dashboard builder
-- 🚀 Enterprise SSO integration
+- ☁️ Multi-cloud database support
+- 🏢 Enterprise SSO
 
 ---
 
@@ -923,21 +658,29 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 **Acknowledgments**
 
-Special thanks to:
+Special thanks to the amazing open-source community:
 
-- 🤖 **Groq** for ultra-fast LLM inference
-- 🦜 **LangChain** for LLM orchestration framework
-- ⚛️ **React Team** for the amazing frontend framework
-- 🚀 **FastAPI** for high-performance Python API framework
-- 🎨 **Tailwind CSS** for beautiful, utility-first styling
-- 🌐 **Open Source Community** for inspiration and support
+- 🤖 **Groq** - Ultra-fast LLM inference
+- 🦜 **LangChain** - LLM orchestration
+- ⚛️ **React Team** - Frontend framework
+- 🚀 **FastAPI** - Python web framework
+- 🎨 **Tailwind CSS** - Utility-first styling
 
 ---
 
 <div align="center">
 
-<p><strong>🎯 Transform your data conversations with Aura - Where AI meets intuitive database exploration!</strong></p>
+### 🚀 **Transform Your Data Experience with EchoSQL**
 
-<p>Made with ❤️ by the Aura Team | © 2025 Aura AI Platform</p>
+_Where Natural Language Meets Intelligent Database Analytics_
+
+**[🌟 Star this project](https://github.com/RahulRR-10/EchoSQL-Project)** • **[📖 Read the Docs](https://docs.echosql.com)** • **[💬 Join Discord](https://discord.gg/echosql)**
+
+---
+
+_Made with ❤️ by the EchoSQL Team | © 2025 EchoSQL Platform_
+
+[![GitHub stars](https://img.shields.io/github/stars/RahulRR-10/EchoSQL-Project?style=social)](https://github.com/RahulRR-10/EchoSQL-Project)
+[![Twitter Follow](https://img.shields.io/twitter/follow/EchoSQL?style=social)](https://twitter.com/EchoSQL)
 
 </div>
