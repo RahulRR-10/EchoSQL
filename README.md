@@ -1,4 +1,59 @@
+# EchoSQL
+
+**Transform natural language and voice into SQL and Cypher queries across MySQL, PostgreSQL, and Neo4j databases**
+
 <div align="center">
+
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![CI](https://img.shields.io/github/workflow/status/RahulRR-10/EchoSQL-Project/CI/main)
+![Docker](https://img.shields.io/badge/Docker-ready-blue.svg)
+![npm](https://img.shields.io/npm/v/echosql-client)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
+![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
+![Coverage](https://img.shields.io/codecov/c/github/RahulRR-10/EchoSQL-Project)
+
+[Live Demo](https://echosql-demo.vercel.app) • [Documentation](https://docs.echosql.com) • [Discord](https://discord.gg/echosql)
+
+</div>
+
+---
+
+## Screenshots
+
+| Chat Interface                                  | Interactive Charts                            |
+| ----------------------------------------------- | --------------------------------------------- |
+| ![Chat UI](docs/images/chat-ui-placeholder.png) | ![Charts](docs/images/charts-placeholder.png) |
+
+---
+
+## Table of Contents
+
+- [Why EchoSQL](#why-echosql)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Connect a Database](#connect-a-database)
+- [Using the App](#using-the-app)
+- [Sample Datasets](#sample-datasets)
+- [Configuration and Security](#configuration-and-security)
+- [Observability & Performance](#observability--performance)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [FAQ](#faq)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+---
+
+## Why EchoSQL
+
+- **Schema-aware LLM**: AI understands your database structure and relationships
+- **Voice & Text Input**: Speak or type queries in natural language
+- **Auto-generated Charts**: Bar, line, pie, heatmap visualizations based on data patterns
+- **PDF Report Generation**: Professional reports with insights and visualizations
+- **Multi-database Support**: MySQL, PostgreSQL, and Neo4j in one platform
+- **Enterprise Security**: Encrypted credentials, JWT auth, read-only executionign="center">
 
 # � **EchoSQL** - AI-Powered Database Intelligence Platform
 

@@ -36,9 +36,11 @@ const SQLCard = ({
     typeof sqlResponse === "string" || (!isValidResponse && sqlResponse);
 
   // Check if this is formatted Neo4j data
-  const isFormattedNeo4j = isValidResponse && sqlResponse[0] && 
-    Object.values(sqlResponse[0]).some(val => 
-      val && typeof val === 'object' && val.type && val.properties
+  const isFormattedNeo4j =
+    isValidResponse &&
+    sqlResponse[0] &&
+    Object.values(sqlResponse[0]).some(
+      (val) => val && typeof val === "object" && val.type && val.properties
     );
 
   // Render Neo4j nodes in a card format
@@ -50,10 +52,16 @@ const SQLCard = ({
         </p>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {sqlResponse.map((record, i) => (
-            <div key={i} className="bg-[#2a3a3a] rounded-lg p-4 border border-gray-600">
+            <div
+              key={i}
+              className="bg-[#2a3a3a] rounded-lg p-4 border border-gray-600"
+            >
               {Object.entries(record).map(([key, value]) => (
                 <div key={key} className="mb-3 last:mb-0">
-                  {value && typeof value === 'object' && value.type && value.properties ? (
+                  {value &&
+                  typeof value === "object" &&
+                  value.type &&
+                  value.properties ? (
                     // This is a formatted Neo4j node
                     <div>
                       <div className="flex items-center gap-2 mb-2">
@@ -67,25 +75,31 @@ const SQLCard = ({
                         )}
                       </div>
                       <div className="space-y-1">
-                        {Object.entries(value.properties).map(([propKey, propValue]) => (
-                          propKey !== 'name' && (
-                            <div key={propKey} className="flex justify-between text-xs">
-                              <span className="text-gray-400 capitalize">
-                                {propKey.replace(/_/g, ' ')}:
-                              </span>
-                              <span className="text-gray-200 ml-2 text-right">
-                                {typeof propValue === 'object' ? 
-                                  JSON.stringify(propValue) : String(propValue)}
-                              </span>
-                            </div>
-                          )
-                        ))}
+                        {Object.entries(value.properties).map(
+                          ([propKey, propValue]) =>
+                            propKey !== "name" && (
+                              <div
+                                key={propKey}
+                                className="flex justify-between text-xs"
+                              >
+                                <span className="text-gray-400 capitalize">
+                                  {propKey.replace(/_/g, " ")}:
+                                </span>
+                                <span className="text-gray-200 ml-2 text-right">
+                                  {typeof propValue === "object"
+                                    ? JSON.stringify(propValue)
+                                    : String(propValue)}
+                                </span>
+                              </div>
+                            )
+                        )}
                       </div>
                     </div>
                   ) : (
                     // This is a primitive value
                     <div className="text-gray-300 text-sm">
-                      <span className="text-gray-400">{key}:</span> {String(value)}
+                      <span className="text-gray-400">{key}:</span>{" "}
+                      {String(value)}
                     </div>
                   )}
                 </div>
@@ -172,9 +186,8 @@ const SQLCard = ({
       )}
 
       {/* Query Response - Success Case */}
-      {isValidResponse && (
-        isFormattedNeo4j ? renderNeo4jResults() : renderSQLResults()
-      )}
+      {isValidResponse &&
+        (isFormattedNeo4j ? renderNeo4jResults() : renderSQLResults())}
 
       {/* No Data Case */}
       {!hasError && !isValidResponse && (
