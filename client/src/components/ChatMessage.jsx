@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import SQLCard from "./SQLCard";
 import { formatDistanceToNow } from "date-fns";
 import { AiOutlineUser, AiOutlineRobot } from "react-icons/ai"; // Icon imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getGraphRecommendations } from "../utils/service";
 import DataVisualization from "./DataVisualization";
 
@@ -11,6 +11,8 @@ const ChatMessage = ({ message }) => {
   const [visualizationData, setVisualizationData] = useState(null);
   const [isLoadingViz, setIsLoadingViz] = useState(false);
   const [vizError, setVizError] = useState(null);
+  const [canVisualize, setCanVisualize] = useState(null); // null = unknown, true/false = known
+  const [isAutoValidating, setIsAutoValidating] = useState(false);
 
   // Safety check for message object
   if (!message) {
@@ -26,8 +28,20 @@ const ChatMessage = ({ message }) => {
     setVizError(null);
 
     try {
-      const data = await getGraphRecommendations(message.sqlResponse);
-      setVisualizationData(data);
+      const data = await getGraphRecommendations(
+        message.sqlResponse,
+        message.requestQuery || "",
+        message.sqlQuery || message.cypherQuery || ""
+      );
+
+      // If the validator says no visualization, hide the button (don't show large explanation)
+      if (data.should_visualize === false) {
+        setCanVisualize(false);
+        setVisualizationData(null);
+      } else {
+        setCanVisualize(true);
+        setVisualizationData(data);
+      }
     } catch (err) {
       setVizError("Failed to generate visualization");
       console.error("Visualization error:", err);
@@ -35,6 +49,56 @@ const ChatMessage = ({ message }) => {
       setIsLoadingViz(false);
     }
   };
+
+  // Auto-validate visualization suitability when a SQL response is present
+  useEffect(() => {
+    let cancelled = false;
+
+    const autoValidate = async () => {
+      if (!message.sqlResponse || !Array.isArray(message.sqlResponse) || message.sqlResponse.length === 0) {
+        setCanVisualize(false);
+        return;
+      }
+
+      // If we've already validated this message, skip
+      if (canVisualize !== null) return;
+
+      setIsAutoValidating(true);
+      try {
+        const res = await getGraphRecommendations(
+          message.sqlResponse,
+          message.requestQuery || "",
+          message.sqlQuery || message.cypherQuery || ""
+        );
+
+        if (cancelled) return;
+
+        if (res && res.should_visualize === false) {
+          // Hide the button silently
+          setCanVisualize(false);
+        } else if (res && res.should_visualize === true) {
+          setCanVisualize(true);
+          // store recommended graphs so user can click visualize later
+          setVisualizationData(res);
+        } else {
+          // Fallback: allow visualize button but no recommendation yet
+          setCanVisualize(true);
+        }
+      } catch (err) {
+        // On error, be permissive: allow user to attempt visualization
+        console.error('Auto-validate visualization failed:', err);
+        setCanVisualize(true);
+      } finally {
+        setIsAutoValidating(false);
+      }
+    };
+
+    autoValidate();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [message, canVisualize]);
 
   // Render SQLCard if it's a response message (SQL or Neo4j)
   const hasQueryResponse =
@@ -63,10 +127,11 @@ const ChatMessage = ({ message }) => {
           timestamp={message.createdAt}
         />
 
-        {/* Only show visualization button for successful queries with array data */}
+        {/* Only show visualization button for successful queries with array data and when validator allows it */}
         {message.sqlResponse &&
           Array.isArray(message.sqlResponse) &&
-          message.sqlResponse.length > 0 && (
+          message.sqlResponse.length > 0 &&
+          (canVisualize === null || canVisualize === true) && (
             <motion.button
               onClick={handleVisualize}
               disabled={isLoadingViz}
@@ -80,14 +145,14 @@ const ChatMessage = ({ message }) => {
             </motion.button>
           )}
 
-        {/* Error Message */}
+        {/* Only show explicit errors or messages (don't show validator's "no viz" reason) */}
         {vizError && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-2 text-sm text-red-400"
+            className="mt-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-sm text-yellow-400"
           >
-            {vizError}
+            💡 {vizError}
           </motion.div>
         )}
 

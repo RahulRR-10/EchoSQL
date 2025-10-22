@@ -5,6 +5,7 @@ from typing import Optional
 from utils.db import configure_db, get_database_schema
 from utils.chat import chat_db
 from utils.rag_service import get_rag_service
+from utils.visualization_validator import get_visualization_validator
 from groq import Groq
 # Using requests for simple translation instead of googletrans
 import os
@@ -60,6 +61,15 @@ class SearchCompletionsRequest(BaseModel):
 
 class GraphRecommendationRequest(BaseModel):
     sql_result_json: List[Dict[str, Any]] = Field(..., description="The result of the SQL query in JSON format (list of dictionaries)")
+    user_query: Optional[str] = Field("", description="Original user query in natural language")
+    sql_query: Optional[str] = Field("", description="Generated SQL/Cypher query")
+
+class GraphRecommendationResponse(BaseModel):
+    recommended_graphs: List[str]
+    should_visualize: Optional[bool] = True
+    reason: Optional[str] = ""
+    confidence: Optional[float] = 1.0
+    validator: Optional[str] = "rule_based"
 
 async def translate_to_english(text: str) -> str:
     # Since googletrans is not available, we'll use the Groq model for translation
@@ -408,29 +418,69 @@ async def search_completions(request: SearchCompletionsRequest):
 
 
 
-@api.post("/graphrecommender")
-async def recommend_graph(request: GraphRecommendationRequest) -> Dict[str, List[str]]:
+@api.post("/graphrecommender", response_model=GraphRecommendationResponse)
+async def recommend_graph(request: GraphRecommendationRequest) -> GraphRecommendationResponse:
+    """
+    Smart chart recommendation using Azure OpenAI for validation.
+    This saves Groq credits by using Azure OpenAI only for visualization decisions.
+    """
     data = request.sql_result_json
 
-    
+    # Validate input
     if not data or not isinstance(data, list) or not all(isinstance(item, dict) for item in data):
         raise HTTPException(status_code=400, detail="Invalid input: Expected a list of dictionaries.")
 
+    # Get user query and SQL query from request if available
+    user_query = getattr(request, 'user_query', '')
+    sql_query = getattr(request, 'sql_query', '')
     
-    try:
-        data_preview = json.dumps(data[:5], indent=2)
-        total_json_size = len(json.dumps(data))
-        if total_json_size > 1500 and len(data_preview) > 1000:
-            data_preview = data_preview[:1000] + "\n... (data truncated)"
-        elif len(data) > 5:
-            data_preview += "\n... (more rows exist)"
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to process input data preview: {e}")
+    # Use Azure OpenAI to validate if visualization is appropriate
+    validator = get_visualization_validator()
+    validation_result = validator.should_visualize(
+        user_query=user_query,
+        sql_query=sql_query,
+        result_data=data[:10],  # Send first 10 rows for analysis
+        result_count=len(data)
+    )
+    
+    validator_name = validation_result.get("validator", "rule_based")
+    print(f"[DEBUG] Visualization Validation Result ({validator_name}): {validation_result}")
 
-    
+    # If validator says no visualization needed, return empty recommendations
+    if not validation_result.get("should_visualize", False):
+        return GraphRecommendationResponse(
+            recommended_graphs=[],
+            should_visualize=False,
+            reason=validation_result.get("reason", ""),
+            confidence=validation_result.get("confidence", 0.0),
+            validator=validator_name
+        )
+
+    # If visualization is recommended, return the chart types from validator
+    recommended_charts = validation_result.get("recommended_charts", [])
+
+    # If validator didn't provide specific charts, fall back to rule-based logic
+    if not recommended_charts:
+        print(f"[DEBUG] {validator_name} recommended visualization but no specific charts, using fallback logic")
+        recommended_charts = await _fallback_chart_recommendation(data)
+
+    return GraphRecommendationResponse(
+        recommended_graphs=recommended_charts[:3],  # Max 3 charts
+        should_visualize=True,
+        reason=validation_result.get("reason", ""),
+        confidence=validation_result.get("confidence", 0.0),
+        validator=validator_name
+    )
+
+
+async def _fallback_chart_recommendation(data: List[Dict[str, Any]]) -> List[str]:
+    """
+    Fallback chart recommendation logic when Azure OpenAI doesn't provide specific charts.
+    Uses rule-based analysis (no API calls).
+    """
+    # Analyze the data structure
     column_names = list(data[0].keys()) if data else []
     
-    # Analyze the data structure to make smart recommendations
     numeric_columns = []
     categorical_columns = []
     date_columns = []
@@ -441,7 +491,6 @@ async def recommend_graph(request: GraphRecommendationRequest) -> Dict[str, List
             if isinstance(value, (int, float)) or (isinstance(value, str) and value.replace('.', '').replace('-', '').isdigit()):
                 numeric_columns.append(col)
             elif isinstance(value, str):
-                # Check if it might be a date
                 if any(keyword in col.lower() for keyword in ['date', 'time', 'created', 'updated', 'year', 'month']):
                     date_columns.append(col)
                 else:
@@ -450,7 +499,6 @@ async def recommend_graph(request: GraphRecommendationRequest) -> Dict[str, List
     # Determine best chart types based on data structure
     recommended_charts = []
     
-    # If we have numeric and categorical data
     if numeric_columns and categorical_columns:
         if len(data) <= 10:
             recommended_charts = ["pie", "bar", "line"]
@@ -458,76 +506,17 @@ async def recommend_graph(request: GraphRecommendationRequest) -> Dict[str, List
             recommended_charts = ["line", "area", "bar"]
         else:
             recommended_charts = ["bar", "pie", "line"]
-    
-    # If we have multiple numeric columns
     elif len(numeric_columns) >= 2:
         recommended_charts = ["scatter", "bar", "line"]
-    
-    # If we only have numeric data
     elif numeric_columns:
         recommended_charts = ["bar", "line", "area"]
-    
-    # If we only have categorical data
     elif categorical_columns:
         recommended_charts = ["pie", "bar"]
-    
-    # Default fallback
-    if not recommended_charts:
+    else:
         recommended_charts = ["bar", "pie", "line"]
 
-    # Use LLM as a secondary validation/refinement
-    prompt = (
-        f"Data structure analysis:\n"
-        f"- Rows: {len(data)}\n"
-        f"- Columns: {column_names}\n"
-        f"- Numeric columns: {numeric_columns}\n"
-        f"- Categorical columns: {categorical_columns}\n"
-        f"- Date columns: {date_columns}\n\n"
-        f"Current recommendation: {recommended_charts}\n\n"
-        f"Based on this data structure, confirm or refine the chart recommendations.\n"
-        f"Respond with exactly 3 chart types from: bar, line, pie, area, scatter, heatmap\n"
-        f"Format: chart1, chart2, chart3"
-    )
+    return recommended_charts[:3]
 
-    try:
-        response = client.chat.completions.create(
-            model="llama-3.1-8b-instant", 
-            temperature=0.2, 
-            max_tokens=50, 
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are an expert data visualization assistant. Recommend the 3 best chart types for the given data structure."
-                },
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        content = response.choices[0].message.content
-        if content:
-            content = content.strip()
-            llm_charts = [chart.strip().lower() for chart in content.split(',')]
-            valid_charts = ['bar', 'line', 'pie', 'area', 'scatter', 'heatmap']
-            filtered_charts = [chart for chart in llm_charts if chart in valid_charts]
-            if len(filtered_charts) >= 2:
-                recommended_charts = filtered_charts[:3]
-
-    except Exception as e:
-        print(f"[Warning] LLM refinement failed: {e}")
-        # Keep our original recommendation
-        pass
-
-    # Ensure we always have at least 2-3 recommendations
-    if len(recommended_charts) < 2:
-        recommended_charts.extend(["bar", "pie", "line"])
-    
-    # Remove duplicates while preserving order
-    final_charts = []
-    for chart in recommended_charts:
-        if chart not in final_charts:
-            final_charts.append(chart)
-    
-    return {"recommended_graphs": final_charts[:3]}
 
 @api.get("/rag-status")
 async def get_rag_status():
