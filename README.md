@@ -1,3 +1,5 @@
+<div align="center">
+
 <img src="client/public/hero.png" alt="EchoSQL Logo" width="300px">
 
 ### _Transform Natural Language into Intelligent Database Insights_
@@ -65,7 +67,9 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 ## 🚀 **Core Features**
 
 <div align="center">
+
 <img src="client/public/voice.png" alt="EchoSQL Features" width="400px">
+
 </div>
 
 ### 🎯 **Smart Query Engine**
@@ -73,7 +77,7 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 - **🗣️ Natural Language Processing**: Ask questions like "Show me top customers this month"
 - **🎙️ Voice Input**: Speak your queries with real-time speech-to-text
 - **🧠 Context Awareness**: Maintains conversation history for follow-up questions
-- **� Auto-Suggestions**: Intelligent query recommendations based on your data
+- **💡 Auto-Suggestions**: Intelligent query recommendations based on your data
 
 ### 📊 **Intelligent Visualizations**
 
@@ -114,7 +118,9 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 ## 🏗️ **Technology Stack**
 
 <div align="center">
-<img src="client/public/database.png" alt="Architecture Diagram" width="200px">
+
+<img src="client/public/database.png" alt="Architecture Diagram" width="250px">
+
 </div>
 
 ### 🎯 **Modern, Scalable Architecture**
@@ -176,7 +182,9 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 ## 🕸️ **Neo4j Graph Database Integration**
 
 <div align="center">
-  <img src="client/public/hero.png" alt="Supply Chain Network" width="250px">
+
+<img src="client/public/hero.png" alt="Supply Chain Network" width="300px">
+
 </div>
 
 ### 🏭 **Enterprise Supply Chain Analytics**
@@ -251,7 +259,9 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
 ## 🔄 **How EchoSQL Works**
 
 <div align="center">
-  <img src="client/public/voice.png" alt="EchoSQL Workflow" width="400px">
+
+<img src="client/public/voice.png" alt="EchoSQL Workflow" width="400px">
+
 </div>
 
 ### 🚀 **End-to-End User Journey**
@@ -543,9 +553,9 @@ Try these questions:
 **📊 Sales Analytics**
 
 ```
-� "Show top 10 products by revenue"
-� "Which regions had declining sales?"
-� "What's our monthly growth rate?"
+💬 "Show top 10 products by revenue"
+💬 "Which regions had declining sales?"
+💬 "What's our monthly growth rate?"
 💬 "Find customers who spent over $1000"
 ```
 
@@ -558,7 +568,7 @@ Try these questions:
 💬 "Who are our most loyal customers?"
 💬 "Show customer churn rate by month"
 💬 "Which products do millennials buy?"
-� "Find inactive users from last quarter"
+💬 "Find inactive users from last quarter"
 ```
 
 </td>
@@ -569,7 +579,7 @@ Try these questions:
 **📈 Financial Reporting**
 
 ```
-� "Calculate profit margins by category"
+💬 "Calculate profit margins by category"
 💬 "Show monthly recurring revenue"
 💬 "Find overdue payments"
 💬 "What's our cash flow trend?"
@@ -591,15 +601,15 @@ Try these questions:
 </tr>
 </table>
 
-### � **Neo4j Graph Analytics**
+### 🕸️ **Neo4j Graph Analytics**
 
 **Supply Chain Intelligence**
 
 ```cypher
-� "Show the complete supply chain for smartphones"
+💬 "Show the complete supply chain for smartphones"
 💬 "Which suppliers have the highest risk?"
-� "Find bottlenecks in our distribution network"
-� "Map all connections from suppliers to retailers"
+💬 "Find bottlenecks in our distribution network"
+💬 "Map all connections from suppliers to retailers"
 ```
 
 ### 📚 **Educational & Research**
@@ -619,7 +629,7 @@ Try these questions:
 
 We welcome contributions! Here's how to get involved:
 
-### � **Quick Contribution Guide**
+### 🎯 **Quick Contribution Guide**
 
 1. **Fork** the repository
 2. **Create** feature branch: `git checkout -b feature/amazing-feature`
@@ -629,7 +639,7 @@ We welcome contributions! Here's how to get involved:
 
 ### 🎯 **Areas We Need Help**
 
-- � **UI/UX**: React components, design improvements
+- 🎨 **UI/UX**: React components, design improvements
 - ⚙️ **Backend**: API optimization, new features
 - 🤖 **AI/ML**: Prompt engineering, model improvements
 - 📊 **Charts**: New visualization types
@@ -638,7 +648,7 @@ We welcome contributions! Here's how to get involved:
 
 ---
 
-## � **Support & Community**
+## 💬 **Support & Community**
 
 ### 🆘 **Need Help?**
 
