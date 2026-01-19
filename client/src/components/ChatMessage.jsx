@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import SQLCard from "./SQLCard";
 import { formatDistanceToNow } from "date-fns";
 import { AiOutlineUser, AiOutlineRobot } from "react-icons/ai"; // Icon imports
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getGraphRecommendations } from "../utils/service";
 import DataVisualization from "./DataVisualization";
 
@@ -11,8 +11,7 @@ const ChatMessage = ({ message }) => {
   const [visualizationData, setVisualizationData] = useState(null);
   const [isLoadingViz, setIsLoadingViz] = useState(false);
   const [vizError, setVizError] = useState(null);
-  const [canVisualize, setCanVisualize] = useState(null); // null = unknown, true/false = known
-  const [isAutoValidating, setIsAutoValidating] = useState(false);
+  const [showVisualization, setShowVisualization] = useState(false);
 
   // Safety check for message object
   if (!message) {
@@ -21,26 +20,42 @@ const ChatMessage = ({ message }) => {
 
   const isUser = message.user && message.user.username;
 
-  const handleVisualize = async () => {
-    if (!message.sqlResponse) return;
+  const handleToggleVisualization = async () => {
+    // If already showing, just hide it
+    if (showVisualization) {
+      setShowVisualization(false);
+      return;
+    }
+
+    // If we already have viz data, just show it
+    if (visualizationData) {
+      setShowVisualization(true);
+      return;
+    }
+
+    // Get the actual data (SQL or Neo4j)
+    const responseData = message.sqlResponse || message.graphResult;
+    if (!responseData) return;
 
     setIsLoadingViz(true);
     setVizError(null);
 
     try {
       const data = await getGraphRecommendations(
-        message.sqlResponse,
+        responseData,
         message.requestQuery || "",
         message.sqlQuery || message.cypherQuery || ""
       );
 
-      // If the validator says no visualization, hide the button (don't show large explanation)
+      // Only show if visualization is recommended
       if (data.should_visualize === false) {
-        setCanVisualize(false);
+        setVizError(data.reason || "This data is not suitable for visualization");
         setVisualizationData(null);
+        setShowVisualization(false);
       } else {
-        setCanVisualize(true);
         setVisualizationData(data);
+        setShowVisualization(true);
+        setVizError(null);
       }
     } catch (err) {
       setVizError("Failed to generate visualization");
@@ -50,60 +65,26 @@ const ChatMessage = ({ message }) => {
     }
   };
 
-  // Auto-validate visualization suitability when a SQL response is present
-  useEffect(() => {
-    let cancelled = false;
-
-    const autoValidate = async () => {
-      if (!message.sqlResponse || !Array.isArray(message.sqlResponse) || message.sqlResponse.length === 0) {
-        setCanVisualize(false);
-        return;
-      }
-
-      // If we've already validated this message, skip
-      if (canVisualize !== null) return;
-
-      setIsAutoValidating(true);
-      try {
-        const res = await getGraphRecommendations(
-          message.sqlResponse,
-          message.requestQuery || "",
-          message.sqlQuery || message.cypherQuery || ""
-        );
-
-        if (cancelled) return;
-
-        if (res && res.should_visualize === false) {
-          // Hide the button silently
-          setCanVisualize(false);
-        } else if (res && res.should_visualize === true) {
-          setCanVisualize(true);
-          // store recommended graphs so user can click visualize later
-          setVisualizationData(res);
-        } else {
-          // Fallback: allow visualize button but no recommendation yet
-          setCanVisualize(true);
-        }
-      } catch (err) {
-        // On error, be permissive: allow user to attempt visualization
-        console.error('Auto-validate visualization failed:', err);
-        setCanVisualize(true);
-      } finally {
-        setIsAutoValidating(false);
-      }
-    };
-
-    autoValidate();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [message, canVisualize]);
-
   // Render SQLCard if it's a response message (SQL or Neo4j)
   const hasQueryResponse =
     (message.sqlQuery && message.sqlResponse) ||
     (message.cypherQuery && message.graphResult);
+
+  // Check if this is a Neo4j graph result (nodes with properties)
+  const isNeo4jGraphResult = message.graphResult && 
+    Array.isArray(message.graphResult) && 
+    message.graphResult.length > 0 &&
+    message.graphResult[0] && 
+    typeof message.graphResult[0] === 'object' &&
+    Object.values(message.graphResult[0]).some(val => 
+      val && typeof val === 'object' && (val.type || val.properties)
+    );
+
+  // Only show visualize button for:
+  // 1. SQL results (always)
+  // 2. Neo4j results that are NOT graph nodes (i.e., aggregated data like COUNT, SUM)
+  const canShowVisualization = message.sqlResponse || 
+    (message.graphResult && !isNeo4jGraphResult);
 
   if (hasQueryResponse) {
     return (
@@ -127,42 +108,48 @@ const ChatMessage = ({ message }) => {
           timestamp={message.createdAt}
         />
 
-        {/* Only show visualization button for successful queries with array data and when validator allows it */}
-        {message.sqlResponse &&
-          Array.isArray(message.sqlResponse) &&
-          message.sqlResponse.length > 0 &&
-          (canVisualize === null || canVisualize === true) && (
-            <motion.button
-              onClick={handleVisualize}
-              disabled={isLoadingViz}
-              className="mt-2 px-4 py-2 bg-[#1a2a2a] border border-cyan-500/30 
-              rounded-lg text-sm text-cyan-400 hover:bg-[#2a3a3a] 
-              transition-all duration-200 disabled:opacity-50"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {isLoadingViz ? "Generating..." : "Visualize Data"}
-            </motion.button>
+        {/* Visualization button - only for SQL or Neo4j aggregated results, NOT graph nodes */}
+        {canShowVisualization && (
+            <div className="flex flex-col items-center gap-2 mt-3">
+              <motion.button
+                onClick={handleToggleVisualization}
+                disabled={isLoadingViz}
+                className={`px-6 py-2 rounded-lg text-sm font-medium
+                  transition-all duration-200 disabled:opacity-50
+                  ${showVisualization 
+                    ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400 hover:bg-cyan-500/30' 
+                    : 'bg-[#1a2a2a] border border-gray-600 text-gray-300 hover:bg-[#2a3a3a] hover:border-cyan-500/50'
+                  }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {isLoadingViz 
+                  ? "Analyzing..." 
+                  : showVisualization 
+                    ? "Hide Visualization" 
+                    : "📊 Visualize Data"}
+              </motion.button>
+              
+              {vizError && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-xs text-yellow-400 max-w-md text-center"
+                >
+                  {vizError}
+                </motion.div>
+              )}
+            </div>
           )}
 
-        {/* Only show explicit errors or messages (don't show validator's "no viz" reason) */}
-        {vizError && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-sm text-yellow-400"
-          >
-            💡 {vizError}
-          </motion.div>
-        )}
-
-        {/* Visualization Component */}
-        {visualizationData &&
-          message.sqlResponse &&
-          Array.isArray(message.sqlResponse) && (
+        {/* Visualization Component - works for both SQL and Neo4j */}
+        {showVisualization &&
+          visualizationData &&
+          (message.sqlResponse || message.graphResult) &&
+          Array.isArray(message.sqlResponse || message.graphResult) && (
             <DataVisualization
               visualizationData={{
-                data: message.sqlResponse,
+                data: message.sqlResponse || message.graphResult,
                 recommended_graphs: visualizationData.recommended_graphs,
               }}
             />
