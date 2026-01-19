@@ -1,75 +1,16 @@
-# EchoSQL
-
-**Transform natural language and voice into SQL and Cypher queries across MySQL, PostgreSQL, and Neo4j databases**
-
-<div align="center">
-
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![CI](https://img.shields.io/github/workflow/status/RahulRR-10/EchoSQL-Project/CI/main)
-![Docker](https://img.shields.io/badge/Docker-ready-blue.svg)
-![npm](https://img.shields.io/npm/v/echosql-client)
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
-![Code Style](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)
-![Coverage](https://img.shields.io/codecov/c/github/RahulRR-10/EchoSQL-Project)
-
-[Live Demo](https://echosql-demo.vercel.app) • [Documentation](https://docs.echosql.com) • [Discord](https://discord.gg/echosql)
-
-</div>
-
----
-
-## Screenshots
-
-| Chat Interface                                  | Interactive Charts                            |
-| ----------------------------------------------- | --------------------------------------------- |
-| ![Chat UI](docs/images/chat-ui-placeholder.png) | ![Charts](docs/images/charts-placeholder.png) |
-
----
-
-## Table of Contents
-
-- [Why EchoSQL](#why-echosql)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Quick Start](#quick-start)
-- [Connect a Database](#connect-a-database)
-- [Using the App](#using-the-app)
-- [Sample Datasets](#sample-datasets)
-- [Configuration and Security](#configuration-and-security)
-- [Observability & Performance](#observability--performance)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [FAQ](#faq)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-
----
-
-## Why EchoSQL
-
-- **Schema-aware LLM**: AI understands your database structure and relationships
-- **Voice & Text Input**: Speak or type queries in natural language
-- **Auto-generated Charts**: Bar, line, pie, heatmap visualizations based on data patterns
-- **PDF Report Generation**: Professional reports with insights and visualizations
-- **Multi-database Support**: MySQL, PostgreSQL, and Neo4j in one platform
-- **Enterprise Security**: Encrypted credentials, JWT auth, read-only executionign="center">
-
-# � **EchoSQL** - AI-Powered Database Intelligence Platform
-
 <img src="client/public/hero.png" alt="EchoSQL Logo" width="300px">
 
 ### _Transform Natural Language into Intelligent Database Insights_
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Python](https://img.shields.io/badge/Python-3.9-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-latest-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.0-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com/)
 
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-2.1.0-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=for-the-badge)
 
 [🚀 **Live Demo**](https://echosql.vercel.app) | [📖 **Documentation**](https://docs.echosql.com) | [💬 **Discord Community**](https://discord.gg/echosql)
@@ -136,17 +77,21 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 
 ### 📊 **Intelligent Visualizations**
 
-- **📈 Auto-Generated Charts**: Bar, line, pie, heatmap charts based on data patterns
-- **🎨 Interactive Dashboards**: Drill-down capabilities and real-time filtering
+- **📈 Smart Chart Generation**: AI-powered visualization validator determines when charts add value
+- **🎛️ Manual Control**: Toggle visualizations on/off with a single click
+- **🎨 Multiple Chart Types**: Bar, line, pie, area, radar, scatter, and heatmap charts
 - **📄 PDF Reports**: Professional reports with insights and visualizations
-- **� Responsive Design**: Perfect viewing on desktop, tablet, and mobile
+- **📱 Responsive Design**: Perfect viewing on desktop, tablet, and mobile
+- **🎯 Context-Aware**: Neo4j graph results displayed as interactive cards, SQL results as tables/charts
 
 ### 🗄️ **Multi-Database Support**
 
 - **🐬 MySQL**: Complete support for MySQL 8.0+ databases
-- **� PostgreSQL**: Advanced features for PostgreSQL 13+
-- **�️ Neo4j**: Graph database queries for relationship analysis
+- **🐘 PostgreSQL**: Advanced features for PostgreSQL 13+
+- **🕸️ Neo4j**: Graph database queries with relationship visualization
+- **📊 Excel Integration**: Direct Excel file upload and querying
 - **⚡ High Performance**: Optimized connections with pooling and caching
+- **🔄 Session Management**: Isolated conversations per database with automatic cleanup
 
 ### 🔒 **Enterprise Security**
 
@@ -159,8 +104,10 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 
 - **🦾 Schema Understanding**: AI analyzes your database structure
 - **✅ Query Validation**: Prevents harmful or invalid queries
-- **� Natural Summaries**: AI-generated insights from query results
-- **🎯 Smart Recommendations**: Suggests relevant follow-up questions
+- **📝 Natural Summaries**: AI-generated insights from query results
+- **🎯 Smart Recommendations**: Context-aware follow-up question suggestions
+- **🤖 Groq Llama 3.3 70B**: Ultra-fast query generation (sub-second responses)
+- **🎨 Gemini 2.5 Flash**: Intelligent visualization recommendations
 
 ---
 
@@ -192,20 +139,21 @@ EchoSQL is a revolutionary conversational database platform that democratizes da
 </td>
 <td valign="top">
 
-**Node.js 18+** - Runtime
+**Node.js 20+** - Runtime
 **Express.js** - Web framework
 **MongoDB** - User data
 **JWT** - Authentication
 **Puppeteer** - PDF generation
-**Socket.IO** - Real-time
+**Multer** - File uploads
 
 </td>
 <td valign="top">
 
-**Python 3.9+** - Core language
+**Python 3.12** - Core language
 **FastAPI** - High-performance API
 **LangChain** - LLM orchestration
 **Groq** - Ultra-fast inference
+**Google Gemini** - Visualization AI
 **SQLAlchemy** - Database toolkit
 **Pydantic** - Data validation
 
@@ -264,6 +212,19 @@ EchoSQL features a comprehensive **Supply Chain Network** built on Neo4j graph d
 
 ### 💡 **Sample Neo4j Queries**
 
+Ask questions in natural language - EchoSQL translates them to Cypher:
+
+```text
+💬 "Show me the complete supply chain for smartphones"
+💬 "Which suppliers have high-risk ratings?"
+💬 "Find the fastest distribution paths to retailers"
+💬 "What materials are used in laptops?"
+💬 "Show me all manufacturers in Asia"
+💬 "Find suppliers with low performance scores"
+```
+
+**Generated Cypher Examples:**
+
 ```cypher
 // Find supply chain paths for smartphones
 MATCH path = (s:Supplier)-[:SUPPLIES]->()-[:USED_IN]->(p:Product {name: "Smart Phone Pro"})
@@ -278,6 +239,12 @@ MATCH (m:Manufacturer)-[:SHIPS_TO]->(d:Distributor)-[:DELIVERS_TO]->(retail:Reta
 WHERE d.delivery_speed = "Express"
 RETURN m.name, d.name, retail.name, d.cost_per_delivery
 ```
+
+**✨ Special Neo4j Features:**
+- 📊 Graph nodes displayed as interactive cards (not charts)
+- 🔗 Relationship visualization with properties
+- 🎨 Color-coded node types for easy identification
+- 🔍 Drill-down into connected nodes
 
 ---
 
@@ -329,6 +296,7 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
         <li>💭 Create new chat session with contextual memory</li>
         <li>📚 Access previous conversation history</li>
         <li>🔖 Bookmark important queries for quick access</li>
+        <li>🧹 Automatic message cleanup when switching databases</li>
       </ul>
     </td>
   </tr>
@@ -383,8 +351,10 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
       <ul>
         <li>📝 AI-generated natural language summaries (2-3 sentences)</li>
         <li>🏷️ Contextual titles for easy query identification</li>
-        <li>📈 Smart chart type recommendations based on data patterns</li>
+        <li>📈 Smart chart type recommendations via Gemini AI</li>
+        <li>🎛️ Manual visualization toggle for user control</li>
         <li>🔍 Data insights and trend identification</li>
+        <li>🚫 Conservative approach - no charts for simple lists</li>
       </ul>
     </td>
   </tr>
@@ -396,9 +366,11 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
       <h3>🎨 **Rich Interactive Display**</h3>
       <ul>
         <li>📋 Responsive data tables with sorting and filtering</li>
-        <li>📊 Interactive visualizations (charts, graphs, heatmaps)</li>
+        <li>📊 Interactive visualizations (bar, line, pie, area, radar, scatter)</li>
+        <li>🕸️ Neo4j graph nodes displayed as interactive cards</li>
         <li>📄 Professional PDF report generation</li>
         <li>💡 Actionable insights and recommendations</li>
+        <li>🎨 Dark/Light theme support</li>
       </ul>
     </td>
   </tr>
@@ -445,10 +417,10 @@ RETURN m.name, d.name, retail.name, d.cost_per_delivery
 Before you begin, ensure you have the following installed:
 
 ```bash
-Node.js 18+     # JavaScript runtime
-Python 3.9+     # For AI services
+Node.js 20+     # JavaScript runtime
+Python 3.12+    # For AI services
 MongoDB         # User data storage
-MySQL/PostgreSQL # Your data to analyze
+MySQL/PostgreSQL/Neo4j # Your data to analyze (optional - can use sample DB)
 ```
 
 ### ⚡ **Installation**
@@ -520,18 +492,43 @@ EMAIL_PASS=your-app-password
 **`services/.env`**
 
 ```env
-GROQ_API_KEY=your-groq-api-key  # Get free at https://groq.com
+GROQ_API_KEY=your-groq-api-key          # Get free at https://groq.com
+GEMINI_API_KEY=your-gemini-api-key      # Get free at https://ai.google.dev
 MYSQL_HOST=localhost
 MYSQL_USER=root
 MYSQL_PASSWORD=your-password
+NEO4J_URI=bolt://localhost:7687         # Optional for Neo4j
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=your-neo4j-password
 ```
 
 ### 🎯 **First Steps**
 
 1. **Register Account** → Visit `http://localhost:5173/signup`
 2. **Verify Email** → Check inbox and confirm
-3. **Add Database** → Dashboard → Connect your MySQL/PostgreSQL
+3. **Add Database** → Dashboard → Connect MySQL/PostgreSQL/Neo4j or upload Excel
 4. **Start Chatting** → Ask: _"Show me all users"_ or _"What's the total sales?"_
+5. **Toggle Visualizations** → Click 📊 button to show/hide charts
+6. **Generate Reports** → Click PDF button to download professional reports
+
+### 🎨 **Sample Database**
+
+To quickly test EchoSQL, use the included supply chain database:
+
+```bash
+cd services
+python create_supply_chain_db.py  # Creates Neo4j supply chain network
+```
+
+Then connect to:
+- **URI:** `bolt://localhost:7687`
+- **Username:** `neo4j`
+- **Password:** Your Neo4j password
+
+Try these questions:
+- _"Show me all suppliers"_
+- _"Which manufacturers produce smartphones?"_
+- _"Find high-risk suppliers"_
 
 ---
 
@@ -660,48 +657,87 @@ We welcome contributions! Here's how to get involved:
 - Verify credentials in `.env` files
 - Check if database server is running
 - Confirm network connectivity
+- For Neo4j: Ensure bolt protocol is enabled
 
 **🔑 Groq API Not Working**
 
 - Verify API key in `services/.env`
-- Check account rate limits
+- Check account rate limits at console.groq.com
 - Ensure internet connection
+- Try regenerating API key if expired
+
+**🎨 Gemini API Issues**
+
+- Verify GEMINI_API_KEY in `services/.env`
+- Get key from https://ai.google.dev
+- Check API quota limits
 
 **🎙️ Voice Input Not Working**
 
-- Allow microphone permissions
-- Use Chrome/Edge browsers
+- Allow microphone permissions in browser
+- Use Chrome/Edge browsers (best support)
 - Check audio device settings
+- Ensure HTTPS or localhost connection
+
+**📊 Visualizations Not Showing**
+
+- Click the "📊 Visualize Data" button manually
+- Check that query returns aggregated data (not simple lists)
+- Neo4j graph nodes show as cards, not charts
+- Try different chart type from dropdown
+
+**💬 Messages From Previous Session**
+
+- Issue fixed in v2.1.0
+- Messages now auto-clear when switching databases
+- Clear browser cache if issue persists
+
+**📦 Python Module Errors**
+
+```bash
+cd services
+pip install -r requirements.txt
+# Or specifically:
+pip install langchain-community langchain-core "numpy<2.0"
+```
 
 </details>
 
 ---
 
-## � **Roadmap**
+## 🗺️ **Roadmap**
 
-### ✅ **Current (v2.0)**
+### ✅ **Current (v2.1 - January 2025)**
 
-- Multi-database support (MySQL, PostgreSQL, Neo4j)
-- Natural language & voice queries
-- Interactive visualizations
-- PDF report generation
-- Enterprise authentication
+- ✅ Multi-database support (MySQL, PostgreSQL, Neo4j)
+- ✅ Natural language & voice queries
+- ✅ Smart visualization with manual control
+- ✅ PDF report generation
+- ✅ Enterprise authentication
+- ✅ Excel file integration
+- ✅ Session isolation and cleanup
+- ✅ AI-powered chart recommendations (Gemini)
+- ✅ Neo4j graph visualization as cards
 
-### � **Next (v2.1)**
+### 🚧 **Next (v2.2 - Q1 2025)**
 
 - 📱 Mobile app (React Native)
 - 🔄 Real-time collaboration
 - 🔌 REST API integrations
 - 📊 Custom dashboard builder
-- 🌐 Multi-language support
+- 🌐 Multi-language support (Spanish, French, Chinese)
+- 🎯 Advanced anomaly detection
+- 📈 Query performance analytics
 
-### 🌟 **Future (v3.0)**
+### 🌟 **Future (v3.0 - Q2 2025)**
 
-- 🤖 Custom model training
+- 🤖 Custom model fine-tuning
 - 🔗 ETL pipeline integration
-- 📈 Predictive analytics
-- ☁️ Multi-cloud database support
-- 🏢 Enterprise SSO
+- 📈 Predictive analytics & forecasting
+- ☁️ Multi-cloud database support (AWS RDS, Azure SQL)
+- 🏢 Enterprise SSO (SAML, OAuth)
+- 🔐 Row-level security
+- 📊 Advanced BI features (pivots, calculated fields)
 
 ---
 
@@ -713,13 +749,26 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 **Acknowledgments**
 
-Special thanks to the amazing open-source community:
+Special thanks to the amazing open-source community and technologies that power EchoSQL:
 
-- 🤖 **Groq** - Ultra-fast LLM inference
-- 🦜 **LangChain** - LLM orchestration
-- ⚛️ **React Team** - Frontend framework
-- 🚀 **FastAPI** - Python web framework
-- 🎨 **Tailwind CSS** - Utility-first styling
+- 🤖 **Groq** - Ultra-fast LLM inference with Llama 3.3 70B
+- 🎨 **Google Gemini** - Intelligent visualization recommendations
+- 🦜 **LangChain** - LLM orchestration and SQL agent framework
+- ⚛️ **React Team** - Frontend framework excellence
+- 🚀 **FastAPI** - High-performance Python web framework
+- 🎨 **Tailwind CSS** - Utility-first styling system
+- 🕸️ **Neo4j** - Graph database platform
+- 📊 **Recharts** - Beautiful React chart library
+
+### 🏆 **Recent Improvements**
+
+**v2.1.0 (January 2025)**
+- 🎯 Smarter visualization with manual toggle control
+- 🧹 Fixed session message persistence bug
+- 🕸️ Enhanced Neo4j graph node display
+- 🤖 Integrated Gemini AI for chart recommendations
+- ⚡ Updated to Python 3.12 and latest LangChain
+- 📊 Conservative visualization approach (no auto-charts for lists)
 
 ---
 
@@ -729,11 +778,13 @@ Special thanks to the amazing open-source community:
 
 _Where Natural Language Meets Intelligent Database Analytics_
 
-**[🌟 Star this project](https://github.com/RahulRR-10/EchoSQL-Project)** • **[📖 Read the Docs](https://docs.echosql.com)** • **[💬 Join Discord](https://discord.gg/echosql)**
+**[⭐ Star this project](https://github.com/RahulRR-10/EchoSQL-Project)** • **[📖 Read the Docs](https://docs.echosql.com)** • **[💬 Join Discord](https://discord.gg/echosql)**
 
 ---
 
 _Made with ❤️ by the EchoSQL Team | © 2025 EchoSQL Platform_
+
+**Key Features:** Natural Language Queries • Voice Input • Multi-Database Support • Smart Visualizations • AI-Powered Insights
 
 [![GitHub stars](https://img.shields.io/github/stars/RahulRR-10/EchoSQL-Project?style=social)](https://github.com/RahulRR-10/EchoSQL-Project)
 [![Twitter Follow](https://img.shields.io/twitter/follow/EchoSQL?style=social)](https://twitter.com/EchoSQL)
