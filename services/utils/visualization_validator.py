@@ -163,7 +163,7 @@ class VisualizationValidator:
         data_summary: Dict
     ) -> str:
         """Create the prompt for Gemini"""
-        return f"""Analyze this database query and determine if visualization is appropriate.
+        return f"""Analyze this database query and determine if visualization is appropriate. BE CONSERVATIVE - only visualize when charts add clear value.
 
 USER QUERY: "{user_query}"
 
@@ -177,13 +177,19 @@ RESULT DATA SUMMARY:
 
 Should this data be visualized? If yes, which chart types are most appropriate?
 
-Important rules:
-- Simple lookups (e.g., "who is X", "what is Y") → NO visualization
-- Simple lists without metrics (e.g., "list companies") → NO visualization  
-- Comparisons, trends, distributions → YES, with appropriate charts
-- Time-series data → YES, prefer line/area charts
-- Categorical counts → YES, prefer bar/pie charts
-- Correlations → YES, prefer scatter charts
+STRICT RULES (err on the side of NO visualization):
+- Simple lookups (e.g., "who is X", "what is Y", "find employee") → NO visualization
+- Simple lists WITHOUT aggregation (e.g., "list all X", "show all Y names", "get all Z") → NO visualization
+- Lists with just names/IDs and descriptive fields (name + qualification, name + department) → NO visualization
+- Only 1-2 columns without numeric metrics → NO visualization
+- Lists asking for "all", "names", "details", "information" → NO visualization
+
+VISUALIZE ONLY WHEN:
+- Aggregations/metrics present (COUNT, SUM, AVG, MAX, MIN)
+- Explicit comparison requested ("compare X vs Y")
+- Trends over time ("sales by month", "growth over years")
+- Distributions ("top 10", "breakdown by category")
+- Correlations between numeric values
 
 Respond ONLY with valid JSON in this exact format:
 {{
@@ -244,15 +250,18 @@ Recommend max 3 chart types, ordered by appropriateness."""
         no_viz_keywords = [
             "who is", "who's", "what is", "what's", "which is",
             "find the manager", "get the email", "show me the name",
-            "return the", "get the password", "find the address"
+            "return the", "get the password", "find the address",
+            "list all", "show all", "get all", "display all",
+            "list the", "show the", "get the", "display the",
+            "names of", "details of", "information about"
         ]
         
-        # Check for simple lookup queries
+        # Check for simple lookup/list queries
         for keyword in no_viz_keywords:
             if keyword in user_query_lower:
                 return {
                     "should_visualize": False,
-                    "reason": "Simple lookup query - visualization not meaningful",
+                    "reason": "Simple lookup/list query - visualization not meaningful",
                     "recommended_charts": [],
                     "confidence": 0.9
                 }
@@ -266,15 +275,22 @@ Recommend max 3 chart types, ordered by appropriateness."""
                 "confidence": 0.85
             }
         
-        # Check if result is just a list of names/IDs without metrics
-        if result_data and len(result_data[0]) == 1:
-            first_col = list(result_data[0].keys())[0]
-            if any(keyword in first_col.lower() for keyword in ['name', 'id', 'email', 'title']):
+        # Check if result is just a list without metrics (2 or fewer columns, no aggregation)
+        if result_data and len(result_data[0]) <= 2:
+            cols = list(result_data[0].keys())
+            # Check if columns are just descriptive (names, IDs, titles, etc.)
+            descriptive_keywords = ['name', 'id', 'email', 'title', 'description', 'address', 'phone', 'qualification', 'department', 'city', 'state']
+            all_descriptive = all(
+                any(keyword in col.lower() for keyword in descriptive_keywords)
+                for col in cols
+            )
+            
+            if all_descriptive:
                 return {
                     "should_visualize": False,
                     "reason": "Simple list without metrics - visualization not informative",
                     "recommended_charts": [],
-                    "confidence": 0.8
+                    "confidence": 0.85
                 }
         
         # Keywords that indicate YES visualization needed
@@ -307,21 +323,12 @@ Recommend max 3 chart types, ordered by appropriateness."""
                 "confidence": 0.75
             }
         
-        # Default: visualize if data looks suitable
-        if result_count >= 2 and len(result_data[0]) >= 2:
-            return {
-                "should_visualize": True,
-                "reason": "Multiple rows with multiple fields - may benefit from visualization",
-                "recommended_charts": ["bar", "pie"],
-                "confidence": 0.6
-            }
-        
-        # Default to no visualization for unclear cases
+        # Default to no visualization unless clear benefit
         return {
             "should_visualize": False,
-            "reason": "Query context unclear - skipping visualization",
+            "reason": "No clear visualization indicators - better shown as table",
             "recommended_charts": [],
-            "confidence": 0.5
+            "confidence": 0.7
         }
 
 

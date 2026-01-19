@@ -4,13 +4,11 @@ from utils.db import configure_db, extract_sql_query, is_valid_sql
 from utils.rag_service import get_rag_service
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
 from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
-from langchain.agents.agent_types import AgentType
-from langchain.agents import AgentExecutor
 from sqlalchemy import text
 import json
 from dotenv import load_dotenv
 import os
-from langchain.callbacks.base import BaseCallbackHandler
+from langchain_core.callbacks.base import BaseCallbackHandler
 import io
 import sys
 from pydantic import SecretStr
@@ -97,7 +95,7 @@ def process_database_query(db_name, host, user, password, database, query, llm, 
             llm=llm,
             toolkit=toolkit,
             verbose=True,
-            agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            agent_type="zero-shot-react-description",
             handle_parsing_errors=True,
             max_iterations=10,
             early_stopping_method="force",

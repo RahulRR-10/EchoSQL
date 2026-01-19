@@ -9,6 +9,7 @@ import { GrMysql } from "react-icons/gr";
 import { SiNeo4J } from "react-icons/si";
 import { useAuth } from "../context/Auth";
 import { createQuerySession } from "../redux/slices/querySession";
+import { clearMessages } from "../redux/slices/queryMessage";
 import { HiOutlineLogout } from "react-icons/hi";
 import ThemeToggle from "../components/ThemeToggle";
 
@@ -26,6 +27,9 @@ function Dashboard() {
 
   const handleClick = async (database) => {
     try {
+      // Clear previous session messages before creating new session
+      dispatch(clearMessages());
+      
       // Create a new session for the selected database
       const sessionData = {
         user: user._id,
@@ -43,6 +47,9 @@ function Dashboard() {
 
   const handleVoiceDB = async (id) => {
     try {
+      // Clear previous session messages before creating new session
+      dispatch(clearMessages());
+      
       const sessionData = {
         user: user._id,
         database: id,

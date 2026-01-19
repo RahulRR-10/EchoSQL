@@ -7,6 +7,7 @@ import { getQuerySessionById } from "../redux/slices/querySession";
 import {
   createQueryMessage,
   getSessionMessages,
+  clearMessages,
 } from "../redux/slices/queryMessage";
 import { fetchSuggestions, fetchCompletions } from "../utils/service";
 import { AnimatePresence } from "framer-motion";
@@ -40,6 +41,9 @@ function Chat() {
   // Fetch session and database on mount
   useEffect(() => {
     if (sessionId) {
+      // Clear messages when switching to a different session
+      dispatch(clearMessages());
+      
       dispatch(getQuerySessionById(sessionId))
         .unwrap()
         .then((session) => {
